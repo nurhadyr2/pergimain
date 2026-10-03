@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '../lib/api';
+import { ui } from '../lib/icons';
 
 const emptyForm = (categoryId) => ({
   categoryId: categoryId || '',
@@ -90,8 +92,10 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: '3px solid #463a66' }}>
-            <h3 className="pix-title" style={{ fontSize: 11 }}>⚙ KELOLA TEMPAT</h3>
-            <button className="pix-chip" onClick={onClose} title="Tutup">✕</button>
+            <h3 className="pix-title" style={{ fontSize: 11 }}>KELOLA TEMPAT</h3>
+            <button className="pix-chip" onClick={onClose} title="Tutup">
+              <FontAwesomeIcon icon={ui.close} />
+            </button>
           </div>
 
           <div className="flex-1 overflow-y-auto px-4 py-4">
@@ -147,8 +151,12 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
                       {p.category?.name}{p.address ? ` · ${p.address}` : ''}
                     </p>
                   </div>
-                  <button className="pix-chip" onClick={() => startEdit(p)} title="Ubah">✎</button>
-                  <button className="pix-chip" onClick={() => remove(p.id)} title="Hapus">✕</button>
+                  <button className="pix-chip" onClick={() => startEdit(p)} title="Ubah">
+                    <FontAwesomeIcon icon={ui.pen} />
+                  </button>
+                  <button className="pix-chip" onClick={() => remove(p.id)} title="Hapus">
+                    <FontAwesomeIcon icon={ui.trash} />
+                  </button>
                 </li>
               ))}
             </ul>

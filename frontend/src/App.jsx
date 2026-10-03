@@ -108,7 +108,7 @@ export default function App() {
               disabled={spinning || loading}
               whileTap={{ scale: 0.98 }}
             >
-              {spinning ? '... MENGACAK ...' : '♥ SPIN ♥'}
+              {spinning ? '... MENGACAK ...' : 'SPIN'}
             </motion.button>
 
             {error && (
@@ -129,16 +129,16 @@ export default function App() {
 
         {/* Bottom nav ala konsol */}
         <nav className="mt-1 flex gap-2">
-          <NavBtn id="spin" label="🎰 SPIN" />
-          <NavBtn id="riwayat" label="♥ RIWAYAT" />
+          <NavBtn id="spin" label="SPIN" />
+          <NavBtn id="riwayat" label="RIWAYAT" />
           <button className="pix-btn pix-sun flex-1" onClick={() => setManageOpen(true)}>
-            ⚙ KELOLA
+            KELOLA
           </button>
         </nav>
       </div>
 
       <p className="font-body mt-4 text-center" style={{ fontSize: 16, color: '#9f86d9' }}>
-        dibuat buat kita berdua ♥
+        dibuat buat kita berdua
       </p>
 
       <ManagePlacesModal

@@ -46,12 +46,6 @@ export default function SpinMachine({ pool, winner, spinId, onSettle }) {
       className="pix-screen relative mx-auto flex h-48 w-full items-center justify-center overflow-hidden p-4"
       style={spinning ? { borderColor: '#e45f97' } : undefined}
     >
-      {/* hiasan sudut pixel */}
-      <span className="absolute left-2 top-2 text-bubble-400" style={{ fontSize: 10 }}>✦</span>
-      <span className="absolute right-2 top-2 text-grape-400" style={{ fontSize: 10 }}>✦</span>
-      <span className="absolute bottom-2 left-2 text-mint-400" style={{ fontSize: 10 }}>✦</span>
-      <span className="absolute bottom-2 right-2 text-sun-400" style={{ fontSize: 10 }}>✦</span>
-
       <AnimatePresence mode="popLayout">
         {card ? (
           <motion.div
@@ -76,7 +70,7 @@ export default function SpinMachine({ pool, winner, spinId, onSettle }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <span className="pix-title blink" style={{ fontSize: 11 }}>? ? ?</span>
+            <span className="pix-title blink" style={{ fontSize: 11 }}>...</span>
             <span className="font-body" style={{ fontSize: 18, color: '#8367c7' }}>
               tekan SPIN buat tau mau kemana
             </span>

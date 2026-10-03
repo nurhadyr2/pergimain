@@ -1,4 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ui } from '../lib/icons';
 
 const fmt = (iso) =>
   new Date(iso).toLocaleString('id-ID', {
@@ -11,7 +13,7 @@ const fmt = (iso) =>
 export default function HistoryList({ items, onDelete }) {
   return (
     <section className="pix-panel p-4">
-      <h3 className="pix-title mb-3" style={{ fontSize: 11 }}>♥ RIWAYAT KALIAN</h3>
+      <h3 className="pix-title mb-3" style={{ fontSize: 11 }}>RIWAYAT KALIAN</h3>
 
       {items.length === 0 ? (
         <p className="font-body py-4 text-center" style={{ fontSize: 18, color: '#8367c7' }}>
@@ -43,7 +45,7 @@ export default function HistoryList({ items, onDelete }) {
                   onClick={() => onDelete(h.id)}
                   title="Hapus"
                 >
-                  ✕
+                  <FontAwesomeIcon icon={ui.trash} />
                 </button>
               </motion.li>
             ))}

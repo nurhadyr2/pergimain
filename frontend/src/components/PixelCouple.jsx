@@ -1,6 +1,4 @@
-// Karakter pixel 8-bit (cewe & cowo) digambar pakai SVG rect, bukan foto.
-const PX = 7;
-
+// Karakter pixel 8-bit (cewe & cowo) + hati, digambar pakai SVG rect (bukan foto/emoji).
 const PAL = {
   o: '#352b4d', // outline
   H: '#8a5a34', // rambut cewe
@@ -11,9 +9,9 @@ const PAL = {
   g: '#67d6a6', // kaos cowo (hijau mint)
   c: '#ffffff', // topi cowo
   b: '#6b5b95', // celana
+  p: '#ef7fae', // hati
 };
 
-// 9 kolom per baris
 const GIRL = [
   '..ooooo..',
   '.oHHHHHo.',
@@ -23,7 +21,7 @@ const GIRL = [
   '.okkkkko.',
   '..okkko..',
   '.odddddo.',
-  'oddddddo.'.padEnd(9, 'd'),
+  'odddddddo',
   'odddddddo',
   '.o.d.d.o.',
   '.oo...oo.',
@@ -38,29 +36,37 @@ const BOY = [
   '.hkkkkkh.',
   '..okkko..',
   '.ogggggo.',
-  'oggggggo'.padEnd(9, 'g'),
+  'ogggggggo'.slice(0, 9),
   'ogggggggo',
   '.ob...bo.',
   '.oo...oo.',
 ];
 
-function Sprite({ rows, className = '' }) {
+const HEART = [
+  '.pp.pp.',
+  'ppppppp',
+  'ppppppp',
+  '.ppppp.',
+  '..ppp..',
+  '...p...',
+];
+
+function Sprite({ rows, px = 7, className = '' }) {
   const w = rows[0].length;
   const h = rows.length;
   const rects = [];
   rows.forEach((row, y) => {
     for (let x = 0; x < row.length; x++) {
-      const ch = row[x];
-      const fill = PAL[ch];
-      if (fill) rects.push(<rect key={`${x}-${y}`} x={x * PX} y={y * PX} width={PX} height={PX} fill={fill} />);
+      const fill = PAL[row[x]];
+      if (fill) rects.push(<rect key={`${x}-${y}`} x={x * px} y={y * px} width={px} height={px} fill={fill} />);
     }
   });
   return (
     <svg
       className={className}
-      width={w * PX}
-      height={h * PX}
-      viewBox={`0 0 ${w * PX} ${h * PX}`}
+      width={w * px}
+      height={h * px}
+      viewBox={`0 0 ${w * px} ${h * px}`}
       shapeRendering="crispEdges"
       aria-hidden="true"
     >
@@ -73,7 +79,7 @@ export default function PixelCouple() {
   return (
     <div className="flex items-end justify-center gap-3 py-1">
       <Sprite rows={GIRL} />
-      <span className="text-bubble-400 floaty" style={{ fontSize: 22, alignSelf: 'center' }}>♥</span>
+      <Sprite rows={HEART} px={5} className="floaty" />
       <Sprite rows={BOY} />
     </div>
   );

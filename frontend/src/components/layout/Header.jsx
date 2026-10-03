@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ui } from '../../lib/icons';
 
 function useClock() {
   const [now, setNow] = useState(new Date());
@@ -21,7 +23,7 @@ export default function Header({ onManage }) {
       {/* Status bar perangkat */}
       <div className="pix-screen flex items-center justify-between px-3 py-2">
         <div className="flex items-center gap-2">
-          <span className="text-bubble-400" style={{ fontSize: 16 }}>♥♥♥</span>
+          <FontAwesomeIcon icon={ui.heart} style={{ color: '#ef7fae', fontSize: 11 }} />
           <span className="pix-title" style={{ fontSize: 8 }}>LV.07</span>
         </div>
         <span className="pix-title" style={{ fontSize: 9 }}>
@@ -39,16 +41,13 @@ export default function Header({ onManage }) {
 
       {/* Judul */}
       <div className="flex items-center justify-between gap-2">
-        <h1 className="pix-title flex items-center gap-2" style={{ fontSize: 13 }}>
-          <span className="text-bubble-400 floaty" style={{ fontSize: 15 }}>♥</span>
-          MAU KEMANA
-        </h1>
+        <h1 className="pix-title" style={{ fontSize: 13 }}>MAU KEMANA</h1>
         <button className="pix-chip" onClick={onManage} title="Kelola tempat">
-          ⚙ KELOLA
+          KELOLA
         </button>
       </div>
       <p className="font-body" style={{ fontSize: 18, color: '#8367c7', marginTop: -6 }}>
-        hari ini, biar mesin yang nentuin ✧
+        hari ini, biar mesin yang nentuin
       </p>
     </header>
   );

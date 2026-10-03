@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ui } from '../lib/icons';
 
 const priceLabel = ['Gratis', 'Murah', 'Sedang', 'Mahal'];
 
@@ -18,7 +20,7 @@ export default function ResultCard({ place, onRespin, onChoose, chosen }) {
       transition={{ duration: 0.25 }}
     >
       <p className="pix-title" style={{ fontSize: 8, color: '#e45f97' }}>
-        ♥ HARI INI KALIAN KE {(place.category?.name || '').toUpperCase()}
+        HARI INI KALIAN KE {(place.category?.name || '').toUpperCase()}
       </p>
       <h2 className="font-body leading-none" style={{ fontSize: 30, color: '#463a66', marginTop: 8 }}>
         {place.name}
@@ -40,15 +42,15 @@ export default function ResultCard({ place, onRespin, onChoose, chosen }) {
         target="_blank"
         rel="noreferrer"
       >
-        📍 BUKA DI MAPS
+        <FontAwesomeIcon icon={ui.map} />&nbsp; BUKA DI MAPS
       </a>
 
       <div className="mt-2 grid grid-cols-2 gap-2">
         <button className="pix-btn pix-white" onClick={onRespin}>
-          ↻ SPIN LAGI
+          SPIN LAGI
         </button>
         <button className="pix-btn pix-pink" onClick={onChoose} disabled={chosen}>
-          {chosen ? '✓ TERSIMPAN' : '♥ PILIH INI'}
+          {chosen ? 'TERSIMPAN' : 'PILIH INI'}
         </button>
       </div>
     </motion.div>
