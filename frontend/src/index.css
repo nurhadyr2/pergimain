@@ -5,9 +5,14 @@
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
+    color-scheme: dark;
   }
   body {
-    @apply bg-gradient-to-b from-brand-50 via-white to-brand-100 text-slate-800 font-sans min-h-screen;
+    @apply bg-ink-950 text-cream-200 font-sans min-h-screen;
+    background-image:
+      radial-gradient(ellipse 120% 60% at 50% -10%, rgba(128, 0, 32, 0.45), transparent 60%),
+      radial-gradient(ellipse 80% 40% at 50% 110%, rgba(212, 175, 55, 0.08), transparent 70%);
+    background-attachment: fixed;
   }
 }
 
@@ -17,12 +22,24 @@
            transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed select-none;
   }
   .btn-ghost {
-    @apply btn bg-white/80 text-slate-700 ring-1 ring-slate-200 hover:ring-brand-300 hover:text-brand-700;
+    @apply btn bg-ink-800 text-cream-200 ring-1 ring-gold-400/20 hover:ring-gold-400/60 hover:text-gold-300;
   }
   .btn-solid {
-    @apply btn text-white shadow-card hover:brightness-105;
+    @apply btn shadow-card hover:brightness-110;
+  }
+  .btn-gold {
+    @apply btn-solid bg-gradient-to-b from-gold-300 to-gold-500 text-ink-950 shadow-gold;
+  }
+  .btn-maroon {
+    @apply btn-solid bg-maroon-500 text-gold-200 ring-1 ring-gold-400/30;
+  }
+  .btn-pink {
+    @apply btn-solid bg-blush-400 text-ink-950;
   }
   .card {
-    @apply rounded-3xl bg-white/90 backdrop-blur shadow-card ring-1 ring-black/5;
+    @apply rounded-3xl bg-ink-900/85 backdrop-blur shadow-card ring-1 ring-gold-400/15;
+  }
+  .icon-btn {
+    @apply grid h-8 w-8 place-items-center rounded-full text-cream-400 transition-colors;
   }
 }

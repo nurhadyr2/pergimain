@@ -1,6 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
-import { iconFor } from '../lib/icons';
 
 export default function CategoryPicker({ categories, selected, onToggle, disabled }) {
   return (
@@ -15,14 +13,12 @@ export default function CategoryPicker({ categories, selected, onToggle, disable
             onClick={() => onToggle(c.slug)}
             whileTap={{ scale: 0.92 }}
             whileHover={{ y: -2 }}
-            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ring-1 transition-colors
+            className={`rounded-full px-4 py-2 text-sm font-semibold ring-1 transition-colors
               ${active
-                ? 'text-white ring-transparent shadow-card'
-                : 'bg-white/80 text-slate-600 ring-slate-200 hover:ring-brand-300'}`}
-            style={active ? { backgroundColor: c.color } : undefined}
+                ? 'bg-maroon-500 text-gold-200 ring-gold-400/60 shadow-card'
+                : 'bg-ink-800 text-cream-300 ring-gold-400/15 hover:text-blush-300 hover:ring-blush-300/50'}`}
           >
-            <FontAwesomeIcon icon={iconFor(c.icon)} style={!active ? { color: c.color } : undefined} />
-            <span>{c.name}</span>
+            {c.name}
           </motion.button>
         );
       })}

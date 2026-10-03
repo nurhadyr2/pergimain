@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
 
 import Header from './components/layout/Header';
@@ -12,7 +11,6 @@ import ManagePlacesModal from './components/ManagePlacesModal';
 import { useCategories } from './hooks/useCategories';
 import { useHistory } from './hooks/useHistory';
 import { api } from './lib/api';
-import { ui } from './lib/icons';
 
 export default function App() {
   const { categories, loading, error: catError } = useCategories();
@@ -45,7 +43,10 @@ export default function App() {
     }
   };
 
-  const handleSettle = () => setSpinning(false);
+  const handleSettle = (winner) => {
+    setSpinning(false);
+    setResult(winner);
+  };
 
   const handleChoose = async () => {
     if (!result) return;
@@ -64,13 +65,13 @@ export default function App() {
       <main className="flex flex-col gap-6">
         {/* Pemilih kategori */}
         <section className="flex flex-col gap-3">
-          <p className="text-center text-sm font-medium text-slate-500">
+          <p className="text-center text-sm font-medium text-cream-400">
             Pilih kategori (kosongkan = semua tempat)
           </p>
           {loading ? (
-            <p className="text-center text-sm text-slate-400">Memuat kategori…</p>
+            <p className="text-center text-sm text-cream-400">Memuat kategori…</p>
           ) : catError ? (
-            <p className="text-center text-sm text-red-500">
+            <p className="text-center text-sm text-blush-300">
               Gagal konek ke server: {catError}
             </p>
           ) : (
@@ -93,16 +94,15 @@ export default function App() {
 
         {/* Tombol SPIN */}
         <motion.button
-          className="btn-solid bg-brand-600 py-4 font-display text-lg"
+          className="btn-gold py-4 font-display text-lg tracking-widest"
           onClick={handleSpin}
           disabled={spinning || loading}
           whileTap={{ scale: 0.97 }}
         >
-          <FontAwesomeIcon icon={ui.dice} className={spinning ? 'animate-spin' : ''} />
-          {spinning ? ' Mengacak…' : ' SPIN!'}
+          {spinning ? 'Mengacak…' : 'SPIN'}
         </motion.button>
 
-        {error && <p className="text-center text-sm text-red-500">{error}</p>}
+        {error && <p className="text-center text-sm text-blush-300">{error}</p>}
 
         {/* Hasil */}
         {result && !spinning && (
@@ -118,8 +118,8 @@ export default function App() {
         <HistoryList items={history.items} onDelete={history.remove} />
       </main>
 
-      <footer className="mt-8 text-center text-xs text-slate-400">
-        Dibuat buat kita berdua 💜
+      <footer className="mt-8 text-center text-xs text-cream-400">
+        Dibuat buat kita berdua <span className="text-blush-400">♥</span>
       </footer>
 
       <ManagePlacesModal

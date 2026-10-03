@@ -8,22 +8,48 @@ export default {
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
-        brand: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
+        // Hitam (latar & permukaan)
+        ink: {
+          950: '#0a0708',
+          900: '#141011',
+          800: '#1e1719',
+          700: '#2b2124',
+          600: '#3d3034',
+        },
+        // Teks terang hangat
+        cream: {
+          100: '#fbf4ea',
+          200: '#efe2d2',
+          300: '#cbb9a6',
+          400: '#9c8b7c',
+        },
+        // Emas (aksen utama)
+        gold: {
+          200: '#f5e5b8',
+          300: '#e9cf83',
+          400: '#d4af37',
+          500: '#b8932a',
+          600: '#8a6d1d',
+        },
+        // Merah maroon
+        maroon: {
+          400: '#a8263d',
+          500: '#800020',
+          600: '#6b0f1a',
+          700: '#4a0a12',
+          800: '#2e060b',
+        },
+        // Pink
+        blush: {
+          200: '#fbd3e0',
+          300: '#f4a6c1',
+          400: '#ec7fa4',
+          500: '#dc5a89',
         },
       },
       boxShadow: {
-        card: '0 10px 40px -12px rgba(76, 29, 149, 0.25)',
-        glow: '0 0 0 4px rgba(139, 92, 246, 0.15)',
+        card: '0 12px 40px -14px rgba(0, 0, 0, 0.8)',
+        gold: '0 10px 30px -10px rgba(212, 175, 55, 0.45)',
       },
       keyframes: {
         'bounce-in': {

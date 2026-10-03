@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { iconFor, ui } from '../lib/icons';
 
 /**
  * Mesin spin: diberi `pool` (kandidat) + `winner` + `spinId`.
@@ -42,20 +40,20 @@ export default function SpinMachine({ pool, winner, spinId, onSettle }) {
   }, [spinId]);
 
   const card = current;
-  const color = card?.category?.color || '#7c3aed';
 
   return (
     <div
-      className="relative mx-auto flex h-60 w-full max-w-sm items-center justify-center overflow-hidden rounded-3xl bg-white/80 p-4 shadow-card ring-1 ring-black/5 transition-shadow"
-      style={{ boxShadow: spinning ? `0 0 0 4px ${color}33, 0 10px 40px -12px ${color}66` : undefined }}
+      className={`relative mx-auto flex h-60 w-full max-w-sm items-center justify-center overflow-hidden rounded-3xl
+        bg-gradient-to-b from-ink-800 to-ink-900 p-4 shadow-card ring-1 transition-shadow
+        ${spinning ? 'ring-gold-400/70 shadow-gold' : 'ring-gold-400/20'}`}
     >
       {/* lampu atas */}
       <div className="absolute inset-x-0 top-3 flex justify-center gap-2">
         {Array.from({ length: 7 }).map((_, i) => (
           <span
             key={i}
-            className={`h-2 w-2 rounded-full ${spinning ? 'animate-blink' : 'opacity-25'}`}
-            style={{ backgroundColor: color, animationDelay: `${i * 0.1}s` }}
+            className={`h-2 w-2 rounded-full ${i % 2 ? 'bg-blush-400' : 'bg-gold-400'} ${spinning ? 'animate-blink' : 'opacity-25'}`}
+            style={{ animationDelay: `${i * 0.1}s` }}
           />
         ))}
       </div>
@@ -70,30 +68,21 @@ export default function SpinMachine({ pool, winner, spinId, onSettle }) {
             exit={{ y: -50, opacity: 0 }}
             transition={{ duration: spinning ? 0.12 : 0.4, type: spinning ? 'tween' : 'spring' }}
           >
-            <span
-              className="grid h-16 w-16 place-items-center rounded-2xl text-3xl text-white shadow-card"
-              style={{ backgroundColor: color }}
-            >
-              <FontAwesomeIcon icon={iconFor(card.category?.icon)} />
-            </span>
-            <span className="text-xs font-bold uppercase tracking-wide" style={{ color }}>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-blush-300">
               {card.category?.name}
             </span>
-            <span className="font-display text-2xl font-bold leading-tight text-slate-800">
+            <span className="font-display text-3xl font-bold leading-tight text-gold-200">
               {card.name}
             </span>
           </motion.div>
         ) : (
           <motion.div
             key="idle"
-            className="flex flex-col items-center gap-2 text-center text-slate-400"
+            className="flex flex-col items-center gap-2 text-center text-cream-400"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <span className="grid h-16 w-16 animate-float place-items-center rounded-2xl bg-brand-100 text-3xl text-brand-500">
-              <FontAwesomeIcon icon={ui.point} />
-            </span>
-            <span className="font-display text-lg font-semibold text-slate-500">
+            <span className="font-display text-xl font-semibold text-gold-300">
               Tekan tombol SPIN
             </span>
             <span className="text-xs">buat tau mau kemana hari ini</span>
