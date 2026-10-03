@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -16,14 +17,20 @@ app.use(express.json());
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 
 // Health check
-app.get('/', (_req, res) =>
+app.get('/healthz', (_req, res) =>
   res.json({ ok: true, service: 'mau-kemana-backend', time: new Date().toISOString() })
 );
 
 // API
 app.use('/api', routes);
 
-// 404 + error handler
+// Sajikan frontend statis (hasil build Vite) + fallback SPA.
+// Struktur di server: backend/src -> ../../frontend/dist
+const distPath = path.join(__dirname, '..', '..', 'frontend', 'dist');
+app.use(express.static(distPath));
+app.get(/^\/(?!api\/).*/, (_req, res) => res.sendFile(path.join(distPath, 'index.html')));
+
+// 404 + error handler (untuk /api yang tidak cocok)
 app.use(notFound);
 app.use(errorHandler);
 
