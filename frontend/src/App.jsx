@@ -7,6 +7,7 @@ import SpinMachine from './components/SpinMachine';
 import ResultCard from './components/ResultCard';
 import HistoryList from './components/HistoryList';
 import ManagePlacesModal from './components/ManagePlacesModal';
+import PixelCouple from './components/PixelCouple';
 
 import { useCategories } from './hooks/useCategories';
 import { useHistory } from './hooks/useHistory';
@@ -70,12 +71,15 @@ export default function App() {
   );
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-md px-3 py-4">
-      <div className="pix-panel flex flex-col gap-4 p-4">
+    <div className="mx-auto min-h-screen w-full max-w-xl px-3 py-4">
+      <div className="pix-panel flex flex-col gap-4 p-5">
         <Header onManage={() => setManageOpen(true)} />
 
         {tab === 'spin' && (
           <main className="flex flex-col gap-4">
+            <div className="pix-screen px-3 py-2">
+              <PixelCouple />
+            </div>
             <p className="pix-title text-center" style={{ fontSize: 8, color: '#8367c7' }}>
               PILIH KATEGORI (KOSONG = SEMUA)
             </p>
