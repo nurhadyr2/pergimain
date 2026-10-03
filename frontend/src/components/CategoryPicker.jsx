@@ -9,10 +9,7 @@ export default function CategoryPicker({ categories, selected, onToggle, disable
             type="button"
             disabled={disabled}
             onClick={() => onToggle(c.slug)}
-            className={`rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors
-              ${active
-                ? 'border-maroon-500 bg-maroon-500 text-gold-200'
-                : 'border-ink-600 bg-ink-900 text-cream-300 hover:border-blush-300 hover:text-blush-200'}`}
+            className={`pix-chip ${active ? 'pix-chip-on' : ''}`}
           >
             {c.name}
           </button>

@@ -4,48 +4,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Fredoka', 'system-ui', 'sans-serif'],
-        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        pixel: ['"Press Start 2P"', 'monospace'],
+        body: ['VT323', 'monospace'],
       },
       colors: {
-        // Hitam (latar & permukaan)
-        ink: {
-          950: '#0a0708',
-          900: '#141011',
-          800: '#1e1719',
-          700: '#2b2124',
-          600: '#3d3034',
-        },
-        // Teks terang hangat
-        cream: {
-          100: '#fbf4ea',
-          200: '#efe2d2',
-          300: '#cbb9a6',
-          400: '#9c8b7c',
-        },
-        // Emas (aksen utama)
-        gold: {
-          200: '#f5e5b8',
-          300: '#e9cf83',
-          400: '#d4af37',
-          500: '#b8932a',
-          600: '#8a6d1d',
-        },
-        // Merah maroon
-        maroon: {
-          400: '#a8263d',
-          500: '#800020',
-          600: '#6b0f1a',
-          700: '#4a0a12',
-          800: '#2e060b',
-        },
-        // Pink
-        blush: {
-          200: '#fbd3e0',
-          300: '#f4a6c1',
-          400: '#ec7fa4',
-          500: '#dc5a89',
-        },
+        lav: { 50: '#f6f2fe', 100: '#efeaf9', 200: '#e3daf5', 300: '#cdbdec' },
+        grape: { 300: '#b39ddb', 400: '#9f86d9', 500: '#8367c7', 600: '#6b5b95' },
+        bubble: { 200: '#ffd6e8', 300: '#f7a8c9', 400: '#ef7fae', 500: '#e45f97' },
+        mint: { 200: '#c9f3e0', 300: '#9fe6c6', 400: '#67d6a6' },
+        sun: { 200: '#ffeeb0', 300: '#ffe08a', 400: '#ffcf4d' },
+        night: { 500: '#6b5b95', 600: '#5a4a80', 700: '#463a66', 800: '#352b4d' },
       },
     },
   },

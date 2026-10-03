@@ -12,34 +12,44 @@ export default function ResultCard({ place, onRespin, onChoose, chosen }) {
 
   return (
     <motion.div
-      className="card mx-auto w-full max-w-sm border-l-4 border-l-maroon-500"
+      className="pix-panel mx-auto w-full p-4"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
     >
-      <div className="p-5">
-        <p className="text-sm text-cream-400">
-          Hari ini kalian ke <span className="text-blush-300">{place.category?.name}</span>
+      <p className="pix-title" style={{ fontSize: 8, color: '#e45f97' }}>
+        ♥ HARI INI KALIAN KE {(place.category?.name || '').toUpperCase()}
+      </p>
+      <h2 className="font-body leading-none" style={{ fontSize: 30, color: '#463a66', marginTop: 8 }}>
+        {place.name}
+      </h2>
+
+      {place.description && (
+        <p className="font-body" style={{ fontSize: 18, color: '#5a4a80', marginTop: 8 }}>
+          {place.description}
         </p>
-        <h2 className="mt-1 font-display text-2xl font-bold leading-tight text-gold-300">{place.name}</h2>
+      )}
 
-        {place.description && <p className="mt-3 text-sm text-cream-300">{place.description}</p>}
+      <p className="font-body" style={{ fontSize: 17, color: '#8367c7', marginTop: 8 }}>
+        {[place.address, priceLabel[place.priceLevel]].filter(Boolean).join(' · ')}
+      </p>
 
-        <p className="mt-3 text-sm text-cream-400">
-          {[place.address, priceLabel[place.priceLevel]].filter(Boolean).join(' · ')}
-        </p>
+      <a
+        className="pix-btn pix-mint mt-4 w-full"
+        href={maps}
+        target="_blank"
+        rel="noreferrer"
+      >
+        📍 BUKA DI MAPS
+      </a>
 
-        <div className="mt-5 grid grid-cols-2 gap-2">
-          <a className="btn-ghost text-sm" href={maps} target="_blank" rel="noreferrer">
-            Buka Maps
-          </a>
-          <button className="btn-ghost text-sm" onClick={onRespin}>
-            Spin lagi
-          </button>
-          <button className="btn-pink col-span-2 text-sm" onClick={onChoose} disabled={chosen}>
-            {chosen ? 'Tersimpan di riwayat' : 'Pilih ini'}
-          </button>
-        </div>
+      <div className="mt-2 grid grid-cols-2 gap-2">
+        <button className="pix-btn pix-white" onClick={onRespin}>
+          ↻ SPIN LAGI
+        </button>
+        <button className="pix-btn pix-pink" onClick={onChoose} disabled={chosen}>
+          {chosen ? '✓ TERSIMPAN' : '♥ PILIH INI'}
+        </button>
       </div>
     </motion.div>
   );

@@ -16,7 +16,8 @@ export default function App() {
   const { categories, loading, error: catError } = useCategories();
   const history = useHistory();
 
-  const [selected, setSelected] = useState([]); // slug kategori; kosong = semua
+  const [tab, setTab] = useState('spin'); // 'spin' | 'riwayat'
+  const [selected, setSelected] = useState([]);
   const [spin, setSpin] = useState({ pool: [], winner: null, spinId: 0 });
   const [result, setResult] = useState(null);
   const [chosen, setChosen] = useState(false);
@@ -30,6 +31,7 @@ export default function App() {
     );
 
   const handleSpin = async () => {
+    setTab('spin');
     setSpinning(true);
     setError('');
     setResult(null);
@@ -58,69 +60,82 @@ export default function App() {
     }
   };
 
+  const NavBtn = ({ id, label }) => (
+    <button
+      className={`pix-btn flex-1 ${tab === id ? 'pix-grape' : 'pix-white'}`}
+      onClick={() => setTab(id)}
+    >
+      {label}
+    </button>
+  );
+
   return (
-    <div className="mx-auto min-h-screen w-full max-w-md px-4 pb-10">
-      <Header onManage={() => setManageOpen(true)} />
+    <div className="mx-auto min-h-screen w-full max-w-md px-3 py-4">
+      <div className="pix-panel flex flex-col gap-4 p-4">
+        <Header onManage={() => setManageOpen(true)} />
 
-      <main className="mt-6 flex flex-col gap-6">
-        {/* Pemilih kategori */}
-        <section className="flex flex-col gap-3">
-          <p className="text-center text-sm font-medium text-cream-400">
-            Pilih kategori (kosongkan = semua tempat)
-          </p>
-          {loading ? (
-            <p className="text-center text-sm text-cream-400">Memuat kategori…</p>
-          ) : catError ? (
-            <p className="text-center text-sm text-blush-300">
-              Gagal konek ke server: {catError}
+        {tab === 'spin' && (
+          <main className="flex flex-col gap-4">
+            <p className="pix-title text-center" style={{ fontSize: 8, color: '#8367c7' }}>
+              PILIH KATEGORI (KOSONG = SEMUA)
             </p>
-          ) : (
-            <CategoryPicker
-              categories={categories}
-              selected={selected}
-              onToggle={toggle}
-              disabled={spinning}
+
+            {loading ? (
+              <p className="font-body text-center" style={{ fontSize: 18, color: '#8367c7' }}>memuat…</p>
+            ) : catError ? (
+              <p className="font-body text-center" style={{ fontSize: 17, color: '#e45f97' }}>
+                gagal konek server: {catError}
+              </p>
+            ) : (
+              <CategoryPicker categories={categories} selected={selected} onToggle={toggle} disabled={spinning} />
+            )}
+
+            <SpinMachine
+              pool={spin.pool}
+              winner={spin.winner}
+              spinId={spin.spinId}
+              onSettle={handleSettle}
             />
-          )}
-        </section>
 
-        {/* Mesin spin */}
-        <SpinMachine
-          pool={spin.pool}
-          winner={spin.winner}
-          spinId={spin.spinId}
-          onSettle={handleSettle}
-        />
+            <motion.button
+              className="pix-btn pix-pink w-full"
+              style={{ fontSize: 13, padding: '0.9rem 1rem' }}
+              onClick={handleSpin}
+              disabled={spinning || loading}
+              whileTap={{ scale: 0.98 }}
+            >
+              {spinning ? '... MENGACAK ...' : '♥ SPIN ♥'}
+            </motion.button>
 
-        {/* Tombol SPIN */}
-        <motion.button
-          className="btn-gold mx-auto w-full max-w-sm py-3.5 font-display text-lg"
-          onClick={handleSpin}
-          disabled={spinning || loading}
-          whileTap={{ scale: 0.97 }}
-        >
-          {spinning ? 'Mengacak…' : 'SPIN'}
-        </motion.button>
+            {error && (
+              <p className="font-body text-center" style={{ fontSize: 17, color: '#e45f97' }}>{error}</p>
+            )}
 
-        {error && <p className="text-center text-sm text-blush-300">{error}</p>}
-
-        {/* Hasil */}
-        {result && !spinning && (
-          <ResultCard
-            place={result}
-            onRespin={handleSpin}
-            onChoose={handleChoose}
-            chosen={chosen}
-          />
+            {result && !spinning && (
+              <ResultCard place={result} onRespin={handleSpin} onChoose={handleChoose} chosen={chosen} />
+            )}
+          </main>
         )}
 
-        {/* Riwayat */}
-        <HistoryList items={history.items} onDelete={history.remove} />
-      </main>
+        {tab === 'riwayat' && (
+          <main className="flex flex-col gap-4">
+            <HistoryList items={history.items} onDelete={history.remove} />
+          </main>
+        )}
 
-      <footer className="mt-8 text-center text-xs text-cream-400">
-        Dibuat buat kita berdua
-      </footer>
+        {/* Bottom nav ala konsol */}
+        <nav className="mt-1 flex gap-2">
+          <NavBtn id="spin" label="🎰 SPIN" />
+          <NavBtn id="riwayat" label="♥ RIWAYAT" />
+          <button className="pix-btn pix-sun flex-1" onClick={() => setManageOpen(true)}>
+            ⚙ KELOLA
+          </button>
+        </nav>
+      </div>
+
+      <p className="font-body mt-4 text-center" style={{ fontSize: 16, color: '#9f86d9' }}>
+        dibuat buat kita berdua ♥
+      </p>
 
       <ManagePlacesModal
         open={manageOpen}

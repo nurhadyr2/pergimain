@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '../lib/api';
-import { ui } from '../lib/icons';
 
 const emptyForm = (categoryId) => ({
   categoryId: categoryId || '',
   name: '',
   description: '',
   address: '',
+  mapUrl: '',
   priceLevel: 1,
 });
 
@@ -61,6 +60,7 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
       name: p.name,
       description: p.description || '',
       address: p.address || '',
+      mapUrl: p.mapUrl || '',
       priceLevel: p.priceLevel,
     });
   };
@@ -72,69 +72,66 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
     onChanged?.();
   };
 
-  const inputCls =
-    'w-full rounded-lg border border-ink-600 bg-ink-950 px-3 py-2 text-sm text-cream-100 placeholder:text-cream-400 focus:border-gold-400 outline-none';
-
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4"
+        className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4"
+        style={{ background: 'rgba(53,43,77,0.55)' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
       >
         <motion.div
-          className="flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-xl border border-ink-700 bg-ink-900 sm:rounded-xl"
+          className="pix-panel flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden"
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 40, opacity: 0 }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between border-b border-ink-700 px-5 py-4">
-            <h3 className="font-display text-lg font-bold text-gold-300">Kelola Tempat</h3>
-            <button className="icon-btn h-9 w-9 hover:bg-ink-800 hover:text-cream-100" onClick={onClose} title="Tutup">
-              <FontAwesomeIcon icon={ui.close} />
-            </button>
+          <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: '3px solid #463a66' }}>
+            <h3 className="pix-title" style={{ fontSize: 11 }}>⚙ KELOLA TEMPAT</h3>
+            <button className="pix-chip" onClick={onClose} title="Tutup">✕</button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-5 py-4">
+          <div className="flex-1 overflow-y-auto px-4 py-4">
             {/* Form tambah / edit */}
-            <form onSubmit={submit} className="mb-5 flex flex-col gap-2.5 border-b border-ink-700 pb-5">
-              <div className="grid grid-cols-2 gap-2.5">
-                <select className={inputCls} value={form.categoryId} onChange={set('categoryId')} required>
+            <form onSubmit={submit} className="mb-4 flex flex-col gap-2 pb-4" style={{ borderBottom: '2px dotted #cdbdec' }}>
+              <div className="grid grid-cols-2 gap-2">
+                <select className="pix-input" value={form.categoryId} onChange={set('categoryId')} required>
                   <option value="" disabled>Kategori</option>
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
-                <select className={inputCls} value={form.priceLevel} onChange={set('priceLevel')}>
+                <select className="pix-input" value={form.priceLevel} onChange={set('priceLevel')}>
                   <option value={0}>Gratis</option>
                   <option value={1}>Murah</option>
                   <option value={2}>Sedang</option>
                   <option value={3}>Mahal</option>
                 </select>
               </div>
-              <input className={inputCls} placeholder="Nama tempat" value={form.name} onChange={set('name')} required />
-              <input className={inputCls} placeholder="Alamat / area (opsional)" value={form.address} onChange={set('address')} />
-              <input className={inputCls} placeholder="Deskripsi (opsional)" value={form.description} onChange={set('description')} />
+              <input className="pix-input" placeholder="Nama tempat" value={form.name} onChange={set('name')} required />
+              <input className="pix-input" placeholder="Alamat / area (opsional)" value={form.address} onChange={set('address')} />
+              <input className="pix-input" placeholder="Link Google Maps (opsional)" value={form.mapUrl} onChange={set('mapUrl')} />
+              <input className="pix-input" placeholder="Deskripsi (opsional)" value={form.description} onChange={set('description')} />
 
-              {error && <p className="text-sm text-blush-300">{error}</p>}
+              {error && <p className="font-body" style={{ fontSize: 17, color: '#e45f97' }}>{error}</p>}
 
               <div className="flex gap-2">
-                <button className="btn-maroon flex-1 text-sm" disabled={busy}>
-                  {editingId ? 'Simpan perubahan' : 'Tambah tempat'}
+                <button className="pix-btn pix-pink flex-1" disabled={busy}>
+                  {editingId ? 'SIMPAN' : 'TAMBAH'}
                 </button>
                 {editingId && (
                   <button
                     type="button"
-                    className="btn-ghost text-sm"
+                    className="pix-btn pix-white"
                     onClick={() => {
                       setEditingId(null);
                       setForm(emptyForm(categories[0]?.id));
                     }}
                   >
-                    Batal
+                    BATAL
                   </button>
                 )}
               </div>
@@ -143,17 +140,15 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
             {/* Daftar tempat */}
             <ul className="flex flex-col">
               {places.map((p) => (
-                <li key={p.id} className="flex items-center gap-3 border-b border-ink-700 py-2.5 last:border-b-0">
+                <li key={p.id} className="flex items-center gap-2 py-2" style={{ borderBottom: '2px dotted #cdbdec' }}>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-semibold text-cream-100">{p.name}</p>
-                    <p className="truncate text-xs text-cream-400">{p.category?.name}{p.address ? ` · ${p.address}` : ''}</p>
+                    <p className="truncate font-body leading-tight" style={{ fontSize: 19, color: '#463a66' }}>{p.name}</p>
+                    <p className="truncate font-body" style={{ fontSize: 15, color: '#9f86d9' }}>
+                      {p.category?.name}{p.address ? ` · ${p.address}` : ''}
+                    </p>
                   </div>
-                  <button className="icon-btn hover:bg-ink-800 hover:text-gold-300" onClick={() => startEdit(p)} title="Ubah">
-                    <FontAwesomeIcon icon={ui.pen} />
-                  </button>
-                  <button className="icon-btn hover:bg-ink-800 hover:text-blush-300" onClick={() => remove(p.id)} title="Hapus">
-                    <FontAwesomeIcon icon={ui.trash} />
-                  </button>
+                  <button className="pix-chip" onClick={() => startEdit(p)} title="Ubah">✎</button>
+                  <button className="pix-chip" onClick={() => remove(p.id)} title="Hapus">✕</button>
                 </li>
               ))}
             </ul>

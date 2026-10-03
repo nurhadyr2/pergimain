@@ -43,39 +43,43 @@ export default function SpinMachine({ pool, winner, spinId, onSettle }) {
 
   return (
     <div
-      className={`relative mx-auto flex h-52 w-full max-w-sm items-center justify-center overflow-hidden rounded-xl
-        border-2 bg-ink-900 p-4 transition-colors
-        ${spinning ? 'border-gold-400' : 'border-ink-700'}`}
+      className="pix-screen relative mx-auto flex h-48 w-full items-center justify-center overflow-hidden p-4"
+      style={spinning ? { borderColor: '#e45f97' } : undefined}
     >
+      {/* hiasan sudut pixel */}
+      <span className="absolute left-2 top-2 text-bubble-400" style={{ fontSize: 10 }}>✦</span>
+      <span className="absolute right-2 top-2 text-grape-400" style={{ fontSize: 10 }}>✦</span>
+      <span className="absolute bottom-2 left-2 text-mint-400" style={{ fontSize: 10 }}>✦</span>
+      <span className="absolute bottom-2 right-2 text-sun-400" style={{ fontSize: 10 }}>✦</span>
 
       <AnimatePresence mode="popLayout">
         {card ? (
           <motion.div
             key={`${card.id}-${spinning}-${spinId}`}
-            className="flex flex-col items-center gap-2 text-center"
-            initial={{ y: spinning ? 50 : 0, opacity: 0, scale: spinning ? 0.9 : 0.8 }}
+            className="flex flex-col items-center gap-2 px-2 text-center"
+            initial={{ y: spinning ? 40 : 0, opacity: 0, scale: spinning ? 0.95 : 0.85 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: -50, opacity: 0 }}
+            exit={{ y: -40, opacity: 0 }}
             transition={{ duration: spinning ? 0.12 : 0.4, type: spinning ? 'tween' : 'spring' }}
           >
-            <span className="text-sm font-medium text-blush-300">
-              {card.category?.name}
+            <span className="pix-title" style={{ fontSize: 8, color: '#e45f97' }}>
+              {(card.category?.name || '').toUpperCase()}
             </span>
-            <span className="font-display text-3xl font-bold leading-tight text-gold-200">
+            <span className="font-body leading-none" style={{ fontSize: 30, color: '#463a66' }}>
               {card.name}
             </span>
           </motion.div>
         ) : (
           <motion.div
             key="idle"
-            className="flex flex-col items-center gap-2 text-center text-cream-400"
+            className="flex flex-col items-center gap-3 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <span className="font-display text-lg font-semibold text-cream-200">
-              Tekan tombol SPIN
+            <span className="pix-title blink" style={{ fontSize: 11 }}>? ? ?</span>
+            <span className="font-body" style={{ fontSize: 18, color: '#8367c7' }}>
+              tekan SPIN buat tau mau kemana
             </span>
-            <span className="text-xs">buat tau mau kemana hari ini</span>
           </motion.div>
         )}
       </AnimatePresence>
