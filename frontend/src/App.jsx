@@ -62,7 +62,7 @@ export default function App() {
     <div className="mx-auto min-h-screen w-full max-w-md px-4 pb-10">
       <Header onManage={() => setManageOpen(true)} />
 
-      <main className="flex flex-col gap-6">
+      <main className="mt-6 flex flex-col gap-6">
         {/* Pemilih kategori */}
         <section className="flex flex-col gap-3">
           <p className="text-center text-sm font-medium text-cream-400">
@@ -94,7 +94,7 @@ export default function App() {
 
         {/* Tombol SPIN */}
         <motion.button
-          className="btn-gold py-4 font-display text-lg tracking-widest"
+          className="btn-gold mx-auto w-full max-w-sm py-3.5 font-display text-lg"
           onClick={handleSpin}
           disabled={spinning || loading}
           whileTap={{ scale: 0.97 }}
@@ -119,7 +119,7 @@ export default function App() {
       </main>
 
       <footer className="mt-8 text-center text-xs text-cream-400">
-        Dibuat buat kita berdua <span className="text-blush-400">♥</span>
+        Dibuat buat kita berdua
       </footer>
 
       <ManagePlacesModal

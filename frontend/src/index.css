@@ -9,37 +9,30 @@
   }
   body {
     @apply bg-ink-950 text-cream-200 font-sans min-h-screen;
-    background-image:
-      radial-gradient(ellipse 120% 60% at 50% -10%, rgba(128, 0, 32, 0.45), transparent 60%),
-      radial-gradient(ellipse 80% 40% at 50% 110%, rgba(212, 175, 55, 0.08), transparent 70%);
-    background-attachment: fixed;
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold
-           transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed select-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold
+           transition-colors disabled:opacity-60 disabled:cursor-not-allowed select-none;
   }
   .btn-ghost {
-    @apply btn bg-ink-800 text-cream-200 ring-1 ring-gold-400/20 hover:ring-gold-400/60 hover:text-gold-300;
-  }
-  .btn-solid {
-    @apply btn shadow-card hover:brightness-110;
+    @apply btn border border-ink-600 bg-ink-900 text-cream-200 hover:border-gold-500 hover:text-gold-300;
   }
   .btn-gold {
-    @apply btn-solid bg-gradient-to-b from-gold-300 to-gold-500 text-ink-950 shadow-gold;
+    @apply btn bg-gold-400 text-ink-950 hover:bg-gold-300;
   }
   .btn-maroon {
-    @apply btn-solid bg-maroon-500 text-gold-200 ring-1 ring-gold-400/30;
+    @apply btn bg-maroon-500 text-gold-200 hover:bg-maroon-400;
   }
   .btn-pink {
-    @apply btn-solid bg-blush-400 text-ink-950;
+    @apply btn bg-blush-300 text-ink-950 hover:bg-blush-200;
   }
   .card {
-    @apply rounded-3xl bg-ink-900/85 backdrop-blur shadow-card ring-1 ring-gold-400/15;
+    @apply rounded-xl border border-ink-700 bg-ink-900;
   }
   .icon-btn {
-    @apply grid h-8 w-8 place-items-center rounded-full text-cream-400 transition-colors;
+    @apply grid h-8 w-8 place-items-center rounded-md text-cream-400 transition-colors;
   }
 }

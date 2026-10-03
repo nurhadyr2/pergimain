@@ -1,4 +1,5 @@
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+// Kosong = same-origin (frontend disajikan oleh backend). Isi VITE_API_URL bila backend beda host.
+const BASE = import.meta.env.VITE_API_URL || '';
 
 async function req(path, options = {}) {
   const res = await fetch(`${BASE}${path}`, {

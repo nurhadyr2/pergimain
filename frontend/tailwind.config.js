@@ -47,30 +47,6 @@ export default {
           500: '#dc5a89',
         },
       },
-      boxShadow: {
-        card: '0 12px 40px -14px rgba(0, 0, 0, 0.8)',
-        gold: '0 10px 30px -10px rgba(212, 175, 55, 0.45)',
-      },
-      keyframes: {
-        'bounce-in': {
-          '0%': { transform: 'scale(0.8)', opacity: '0' },
-          '60%': { transform: 'scale(1.05)' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        },
-        blink: {
-          '0%, 100%': { opacity: '0.25' },
-          '50%': { opacity: '1' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-8px)' },
-        },
-      },
-      animation: {
-        'bounce-in': 'bounce-in 0.5s ease',
-        blink: 'blink 0.7s ease-in-out infinite',
-        float: 'float 4s ease-in-out infinite',
-      },
     },
   },
   plugins: [],

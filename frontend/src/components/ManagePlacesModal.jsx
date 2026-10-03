@@ -73,7 +73,7 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
   };
 
   const inputCls =
-    'w-full rounded-xl border-0 bg-ink-800 px-3 py-2 text-sm text-cream-100 placeholder:text-cream-400 ring-1 ring-gold-400/15 focus:ring-2 focus:ring-gold-400 outline-none';
+    'w-full rounded-lg border border-ink-600 bg-ink-950 px-3 py-2 text-sm text-cream-100 placeholder:text-cream-400 focus:border-gold-400 outline-none';
 
   return (
     <AnimatePresence>
@@ -85,13 +85,13 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
         onClick={onClose}
       >
         <motion.div
-          className="flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-3xl bg-ink-900 ring-1 ring-gold-400/20 sm:rounded-3xl"
+          className="flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-xl border border-ink-700 bg-ink-900 sm:rounded-xl"
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 40, opacity: 0 }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between border-b border-gold-400/15 px-5 py-4">
+          <div className="flex items-center justify-between border-b border-ink-700 px-5 py-4">
             <h3 className="font-display text-lg font-bold text-gold-300">Kelola Tempat</h3>
             <button className="icon-btn h-9 w-9 hover:bg-ink-800 hover:text-cream-100" onClick={onClose} title="Tutup">
               <FontAwesomeIcon icon={ui.close} />
@@ -100,7 +100,7 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
 
           <div className="flex-1 overflow-y-auto px-5 py-4">
             {/* Form tambah / edit */}
-            <form onSubmit={submit} className="mb-5 flex flex-col gap-2.5 rounded-2xl bg-ink-950/60 p-4 ring-1 ring-gold-400/10">
+            <form onSubmit={submit} className="mb-5 flex flex-col gap-2.5 border-b border-ink-700 pb-5">
               <div className="grid grid-cols-2 gap-2.5">
                 <select className={inputCls} value={form.categoryId} onChange={set('categoryId')} required>
                   <option value="" disabled>Kategori</option>
@@ -141,17 +141,17 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
             </form>
 
             {/* Daftar tempat */}
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col">
               {places.map((p) => (
-                <li key={p.id} className="flex items-center gap-3 rounded-2xl bg-ink-800 px-4 py-2 ring-1 ring-gold-400/10">
+                <li key={p.id} className="flex items-center gap-3 border-b border-ink-700 py-2.5 last:border-b-0">
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold text-cream-100">{p.name}</p>
                     <p className="truncate text-xs text-cream-400">{p.category?.name}{p.address ? ` · ${p.address}` : ''}</p>
                   </div>
-                  <button className="icon-btn hover:bg-ink-700 hover:text-gold-300" onClick={() => startEdit(p)} title="Ubah">
+                  <button className="icon-btn hover:bg-ink-800 hover:text-gold-300" onClick={() => startEdit(p)} title="Ubah">
                     <FontAwesomeIcon icon={ui.pen} />
                   </button>
-                  <button className="icon-btn hover:bg-maroon-700 hover:text-blush-300" onClick={() => remove(p.id)} title="Hapus">
+                  <button className="icon-btn hover:bg-ink-800 hover:text-blush-300" onClick={() => remove(p.id)} title="Hapus">
                     <FontAwesomeIcon icon={ui.trash} />
                   </button>
                 </li>
