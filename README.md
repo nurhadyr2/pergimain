@@ -1,4 +1,4 @@
-# Mau Kemana Hari Ini 🎰
+# Mau Kemana Hari Ini
 
 Aplikasi buat kamu & pacar menentukan **mau pergi ke mana hari ini** dengan cara seru:
 pilih kategori (makan, ngopi, main, jalan-jalan, taman, nonton, dll), tekan **SPIN**,
