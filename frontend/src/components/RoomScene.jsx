@@ -11,8 +11,12 @@ const pix = { imageRendering: 'pixelated' };
 const GIRL_BUBBLE = { left: '14%', top: '47%', width: '18%' };
 const BOY_BUBBLE = { left: '64%', top: '47%', width: '18%' };
 
+// Tinggi badan balon (tanpa ekor) dalam % tinggi cover-box:
+// 18% lebar × (16/9) × (136/248 rasio gambar) × (108/136 bagian badan) ≈ 13.9%
+const BODY_HEIGHT = '13.9%';
+
 function BubbleText({ box, children }) {
-  // Teks satu baris di badan balon, ruang ekor di bawah.
+  // Teks satu baris, di tengah badan balon (ekor di bawah tidak dihitung).
   return (
     <div
       className="absolute hidden items-center justify-center text-center lg:flex"
@@ -20,8 +24,7 @@ function BubbleText({ box, children }) {
         left: box.left,
         top: box.top,
         width: box.width,
-        aspectRatio: '62 / 34',
-        paddingBottom: '16%',
+        height: BODY_HEIGHT,
         whiteSpace: 'nowrap',
         fontFamily: 'VT323, monospace',
         color: '#463a66',

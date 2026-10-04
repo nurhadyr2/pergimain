@@ -69,7 +69,7 @@ export default function App() {
 
   const NavBtn = ({ id, label, icon, onClick, on }) => (
     <button
-      className={`pix-btn flex-1 ${on ?? tab === id ? 'pix-grape' : 'pix-white'}`}
+      className={`pix-btn min-w-0 flex-1 !px-1 sm:!px-4 ${on ?? tab === id ? 'pix-grape' : 'pix-white'}`}
       onClick={onClick || (() => setTab(id))}
     >
       <FontAwesomeIcon icon={icon} />&nbsp; {label}
@@ -140,7 +140,7 @@ export default function App() {
         <nav className="mt-1 flex gap-2">
           <NavBtn id="spin" label="SPIN" icon={ui.dice} />
           <NavBtn id="riwayat" label="RIWAYAT" icon={ui.book} />
-          <button className="pix-btn pix-sun flex-1" onClick={() => setManageOpen(true)}>
+          <button className="pix-btn pix-sun min-w-0 flex-1 !px-1 sm:!px-4" onClick={() => setManageOpen(true)}>
             <FontAwesomeIcon icon={ui.gear} />&nbsp; KELOLA
           </button>
         </nav>

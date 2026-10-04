@@ -140,31 +140,6 @@
     color: #b39ddb;
     font-size: 26px;
   }
-
-  /* Balon ucapan karakter */
-  .say {
-    @apply font-body;
-    position: relative;
-    background: #fff;
-    border: 3px solid #463a66;
-    box-shadow: 3px 3px 0 #463a66;
-    color: #463a66;
-    font-size: 17px;
-    line-height: 1.1;
-    padding: 0.4rem 0.6rem;
-    max-width: 180px;
-    text-align: center;
-  }
-  .say::after {
-    content: '';
-    position: absolute; bottom: -10px; left: 24px;
-    width: 10px; height: 10px;
-    background: #fff;
-    border-right: 3px solid #463a66;
-    border-bottom: 3px solid #463a66;
-    transform: rotate(45deg);
-  }
-  .say.say-r::after { left: auto; right: 24px; }
 }
 
 @keyframes blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.25; } }
