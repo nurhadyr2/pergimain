@@ -7,6 +7,7 @@ import CategoryPicker from './components/CategoryPicker';
 import SpinMachine from './components/SpinMachine';
 import ResultCard from './components/ResultCard';
 import HistoryList from './components/HistoryList';
+import TripCalendar from './components/TripCalendar';
 import ManagePlacesModal from './components/ManagePlacesModal';
 import RoomScene from './components/RoomScene';
 import MobileScene from './components/MobileScene';
@@ -133,6 +134,7 @@ export default function App() {
 
         {tab === 'riwayat' && (
           <main className="flex flex-col gap-4">
+            <TripCalendar items={history.items} />
             <HistoryList items={history.items} onDelete={history.remove} />
           </main>
         )}

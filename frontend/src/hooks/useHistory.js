@@ -5,7 +5,8 @@ export function useHistory() {
   const [items, setItems] = useState([]);
 
   const refresh = useCallback(() => {
-    api.history().then(setItems).catch(() => {});
+    // Ambil sebanyak mungkin (batas backend 100): level & kalender dihitung dari seluruh riwayat.
+    api.history(100).then(setItems).catch(() => {});
   }, []);
 
   useEffect(() => {
