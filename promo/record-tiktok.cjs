@@ -58,13 +58,13 @@ const history = [
 // ---------- overlay caption + jari ----------
 const OVERLAY_CSS = `
 #pv{position:fixed;inset:0;z-index:99999;pointer-events:none;font-family:VT323,monospace}
-#pv .cap{position:absolute;left:50%;transform:translateX(-50%) scale(.9);width:max-content;max-width:88vw;
-  background:#fff;border:4px solid #463a66;box-shadow:7px 7px 0 #463a66;padding:14px 20px;text-align:center;
-  opacity:0;transition:opacity .18s,transform .18s}
+#pv .cap{position:absolute;left:50%;transform:translateX(-50%) scale(.9);width:86vw;box-sizing:border-box;
+  background:#fff;border:4px solid #463a66;box-shadow:7px 7px 0 #463a66;padding:14px 16px;text-align:center;
+  opacity:0;transition:opacity .18s,transform .18s;overflow:hidden}
 #pv .cap.on{opacity:1;transform:translateX(-50%) scale(1)}
-#pv .cap b{font-family:'Press Start 2P',monospace;font-size:21px;line-height:1.7;color:#352b4d;display:block}
+#pv .cap b{font-family:'Press Start 2P',monospace;font-size:21px;line-height:1.7;color:#352b4d;display:block;white-space:nowrap}
 #pv .cap b .pk{color:#e45f97}#pv .cap b .gr{color:#2f9e6e}#pv .cap b .pu{color:#8367c7}
-#pv .cap small{display:block;font-size:28px;line-height:1.1;color:#6b5b95;margin-top:4px}
+#pv .cap small{display:block;font-size:28px;line-height:1.1;color:#6b5b95;margin-top:4px;white-space:nowrap}
 #pv .cap.pink{background:#f7a8c9}#pv .cap.sun{background:#ffe08a}#pv .cap.mint{background:#9fe6c6}
 #pv .tap{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;
   background:rgba(228,95,151,.35);border:4px solid #e45f97;opacity:0;transform:scale(.4)}
@@ -82,7 +82,12 @@ const OVERLAY_JS = `
   const caps = {};
   window.__cap = (id, html, { top = '11%', cls = '' } = {}) => {
     let el = caps[id]; if (!el) { el = document.createElement('div'); el.className = 'cap'; root.appendChild(el); caps[id] = el; }
-    el.className = 'cap ' + cls; el.style.top = top; el.innerHTML = html; requestAnimationFrame(() => el.classList.add('on'));
+    el.className = 'cap ' + cls; el.style.top = top; el.innerHTML = html;
+    // Kecilkan huruf sampai tidak ada baris yang melebihi kotak (teks nowrap, baris diatur lewat <br>).
+    const fit = (node, start, min) => { if (!node) return; let f = start; node.style.fontSize = f + 'px';
+      while (f > min && node.scrollWidth > node.clientWidth) { f -= 1; node.style.fontSize = f + 'px'; } };
+    fit(el.querySelector('b'), 21, 12); fit(el.querySelector('small'), 28, 16);
+    requestAnimationFrame(() => el.classList.add('on'));
   };
   window.__capOff = (id) => { const el = caps[id]; if (el) el.classList.remove('on'); };
   window.__capClear = () => Object.keys(caps).forEach(window.__capOff);
@@ -115,10 +120,11 @@ async function makePhotos(browser) {
 }
 
 (async () => {
-  const browser = await chromium.launch();
+  // Jendela 540x960 CSS px dengan skala perangkat 2 -> layout HP, tapi screencast keluar 1080x1920 fisik.
+  const browser = await chromium.launch({ args: ['--force-device-scale-factor=2', '--window-size=540,960', '--hide-scrollbars'] });
   const photos = await makePhotos(browser);
 
-  const ctx = await browser.newContext({ viewport: { width: 540, height: 960 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: 'id-ID' });
+  const ctx = await browser.newContext({ viewport: null, locale: 'id-ID' });
   const page = await ctx.newPage();
   page.on('dialog', (d) => d.accept());
   page.on('pageerror', (e) => console.log('PAGEERROR', e.message));
@@ -158,20 +164,16 @@ async function makePhotos(browser) {
 
   // ----- perekam frame -----
   const cdp = await ctx.newCDPSession(page);
-  const stamps = [];
-  let recording = false;
+  const stamps = []; // detik (metadata.timestamp) per frame
   let n = 0;
-  const startRecording = () => { recording = true; return (async () => {
-    while (recording) {
-      const t = Date.now();
-      // clip memakai koordinat dokumen -> geser sesuai scroll supaya yang terekam = yang terlihat
-      const { result } = await cdp.send('Runtime.evaluate', { expression: 'window.scrollY', returnByValue: true });
-      const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 88, clip: { x: 0, y: result.value || 0, width: 540, height: 960, scale: 2 } });
-      fs.writeFileSync(path.join(FRAMES, `f${String(n++).padStart(5, '0')}.jpg`), Buffer.from(data, 'base64'));
-      stamps.push(t);
-    }
-  })(); };
-  let recLoop;
+  cdp.on('Page.screencastFrame', (f) => {
+    fs.writeFileSync(path.join(FRAMES, `f${String(n++).padStart(5, '0')}.jpg`), Buffer.from(f.data, 'base64'));
+    stamps.push(f.metadata.timestamp);
+    cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }).catch(() => {});
+  });
+  // Frame hanya datang saat layar berubah; jeda diam diisi dengan menahan frame terakhir (lihat durasi di bawah).
+  const startRecording = () => cdp.send('Page.startScreencast', { format: 'jpeg', quality: 90, maxWidth: 1080, maxHeight: 1920, everyNthFrame: 2 });
+  const stopRecording = () => cdp.send('Page.stopScreencast');
   let T0 = Date.now();
   const at = () => ((Date.now() - T0) / 1000).toFixed(1) + 's';
 
@@ -201,29 +203,29 @@ async function makePhotos(browser) {
   await page.waitForSelector('text=PILIH KATEGORI');
   await page.evaluate(OVERLAY_JS);
   await page.waitForTimeout(400);
-  recLoop = startRecording();
+  await startRecording();
   T0 = Date.now();
 
   // --- HOOK (0-6 dtk) ---
   console.log(at(), 'hook');
   await cap('h1', `<b>pacar: <span class="pk">"terserah~"</span> 🙄</b>`, { top: '12%' });
   await sleep(1050);
-  await cap('h2', `<b>aku: <span class="pu">*bikin website*</span> 💻</b>`, { top: '21%' });
+  await cap('h2', `<b>aku: <span class="pu">*bikin website*</span></b>`, { top: '21%' });
   await sleep(1050);
   await clear();
-  await cap('h3', `<b>biar <span class="pk">semesta</span> yang milih ✨</b>`, { top: '12%' });
+  await cap('h3', `<b>biar <span class="pk">semesta</span> yang milih</b>`, { top: '12%' });
   await tap(page.getByRole('button', { name: /SPIN!/ }));
   await page.waitForSelector('text=GAS SEKARANG', { timeout: 20000 });
   await clear();
   await scrollTo(page.getByText('HARI INI KITA KE...'), 'start');
-  await cap('r1', `<b>nggak ada lagi<br>debat <span class="pk">1 jam</span> 😮‍💨</b><small>bahkan tau kalian udah pernah ke sana atau belum</small>`, { top: '58%' });
+  await cap('r1', `<b>nggak ada lagi<br>debat <span class="pk">1 jam</span> 😮‍💨</b><small>bahkan tau udah pernah ke sana atau belum</small>`, { top: '58%' });
   await sleep(2300);
   await clear();
 
   // --- FILTER (≈6-12 dtk) ---
   console.log(at(), 'filter');
   await scrollTo(page.getByText('BUDGET'), 'center');
-  await cap('f1', `<b>tanggal tua? 💸</b><small>filter budget + "belum pernah"</small>`, { top: '12%' });
+  await cap('f1', `<b>tanggal tua? 🥲</b><small>ada filter budget + "belum pernah"</small>`, { top: '12%' });
   await tap(page.getByRole('button', { name: 'HEMAT' }));
   await sleep(300);
   await tap(page.getByRole('button', { name: 'BELUM PERNAH' }));
@@ -233,13 +235,13 @@ async function makePhotos(browser) {
   await sleep(300);
   await clear();
   await scrollTo(page.getByText('HARI INI KITA KE...'), 'start');
-  await cap('f2', `<b><span class="gr">gratis</span> & belum pernah 🌿</b>`, { top: '58%' });
+  await cap('f2', `<b><span class="gr">gratis</span> & belum pernah</b>`, { top: '58%' });
   await sleep(1800);
   await clear();
 
   // --- JADWALKAN (≈12-17 dtk) ---
   console.log(at(), 'jadwalkan');
-  await cap('j1', `<b>belum bisa sekarang?</b><small>jadwalin aja 📌</small>`, { top: '12%' });
+  await cap('j1', `<b>belum bisa sekarang?</b><small>jadwalin aja, masuk kalender</small>`, { top: '12%' });
   await tap(page.getByRole('button', { name: 'JADWALKAN' }));
   await sleep(500);
   const d = new Date(now); d.setDate(D + 6);
@@ -258,7 +260,7 @@ async function makePhotos(browser) {
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
   await sleep(600);
   await scrollTo(page.locator('.cal-cell').first(), 'center');
-  await cap('k1', `<b>kalender <span class="pk">kencan</span> kita ♥</b><small>♥ udah pergi · ★ naik level · 📌 rencana</small>`, { top: '12%' });
+  await cap('k1', `<b>kalender <span class="pk">kencan</span> kita</b><small>♥ udah pergi · ★ naik level · rencana</small>`, { top: '12%' });
   await sleep(1500);
   await tap(page.locator('.cal-cell.cal-trip').first());
   await sleep(1800);
@@ -269,13 +271,13 @@ async function makePhotos(browser) {
   const plan = page.locator('.cal-cell.cal-plan').first();
   await tap(plan);
   await sleep(600);
-  await cap('l1', `<b>abis jalan? tandain ✅</b>`, { top: '12%' });
+  await cap('l1', `<b>abis jalan? tandain</b>`, { top: '12%' });
   await sleep(600);
   await tap(page.locator('.pix-screen').getByRole('button', { name: /UDAH PERGI/ }).first());
   await page.waitForSelector('[role=dialog]', { timeout: 5000 });
   await sleep(500);
   await clear();
-  await cap('l2', `<b>tiap 3x jalan<br><span class="pk">NAIK LEVEL</span> 🎉</b><small>dapet gelar baru tiap level</small>`, { top: '8%', cls: 'sun' });
+  await cap('l2', `<b>tiap 3x jalan<br><span class="pk">NAIK LEVEL</span> 🥳</b><small>dapet gelar baru tiap level</small>`, { top: '8%', cls: 'sun' });
   await sleep(3200);
   await clear();
   await tap(page.getByRole('button', { name: /YEAY/ }));
@@ -284,7 +286,7 @@ async function makePhotos(browser) {
   // --- JURNAL (≈30-38 dtk) ---
   console.log(at(), 'jurnal');
   await page.waitForSelector('text=CERITA HARI ITU');
-  await cap('c1', `<b>terus tulis <span class="pk">ceritanya</span> 📸</b><small>rating · catatan · foto</small>`, { top: '6%' });
+  await cap('c1', `<b>terus tulis <span class="pk">ceritanya</span></b><small>rating · catatan · foto</small>`, { top: '6%' });
   const hearts = page.locator('.rate-heart');
   for (let i = 0; i < 5; i++) { await tap(hearts.nth(i), 120); await sleep(80); }
   await sleep(300);
@@ -306,7 +308,7 @@ async function makePhotos(browser) {
   await tap(page.locator('.cat-tile').first()); // makan -> "Laper banget nih"
   await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
   await sleep(900);
-  await cap('x1', `<b>karakternya ikut <span class="pu">komen</span> 💬</b><small>beda kategori, beda celetukan</small>`, { top: '12%' });
+  await cap('x1', `<b>karakternya ikut <span class="pu">komen</span></b><small>beda kategori, beda celetukan</small>`, { top: '12%' });
   await sleep(2600);
   await clear();
 
@@ -315,7 +317,7 @@ async function makePhotos(browser) {
   await tap(page.getByRole('button', { name: /kunci/ }));
   await page.getByLabel('PIN').waitFor();
   await sleep(400);
-  await cap('p1', `<b>cuma <span class="pk">kita berdua</span><br>yang bisa buka 🔒</b>`, { top: '12%' });
+  await cap('p1', `<b>cuma <span class="pk">kita berdua</span><br>yang bisa buka</b>`, { top: '12%' });
   await sleep(2400);
   await clear();
 
@@ -326,26 +328,26 @@ async function makePhotos(browser) {
       <img src="data:image/png;base64,${girl}" style="width:112px;image-rendering:pixelated">
       <img src="data:image/png;base64,${boy}" style="width:112px;image-rendering:pixelated"></div>
     <div style="font-family:'Press Start 2P',monospace;font-size:13px;color:#8367c7;letter-spacing:1px">COBA DI</div>
-    <div class="cap on" style="position:static;transform:none;max-width:92vw;padding:18px 22px"><b style="font-size:17px;color:#352b4d">${site}</b></div>
-    <div style="font-size:30px;color:#6b5b95;margin-top:6px">bikin buat kita berdua ♥</div>
+    <div class="cap on" style="position:static;transform:none;width:92vw;padding:18px 12px"><b style="font-size:15px;color:#352b4d;white-space:nowrap">${site}</b></div>
+    <div style="font-size:30px;color:#6b5b95;margin-top:6px">dibikin buat kita berdua</div>
     <div style="margin-top:34px;font-family:'Press Start 2P',monospace;font-size:11px;color:#9f86d9;line-height:2">dibikin sama<br><span style="font-size:20px;color:#463a66">ZAVOKRA</span></div>
-    <div style="font-size:28px;color:#e45f97;margin-top:10px">mau versi kalian? DM ya 💌</div>
+    <div style="font-size:28px;color:#e45f97;margin-top:10px">mau versi kalian? DM ya</div>
   `), [SITE, GIRL, BOY]);
   await sleep(4500);
 
-  recording = false;
-  await recLoop;
+  await sleep(300);
+  await stopRecording();
   await browser.close();
 
   // ----- gabung jadi MP4 -----
   const list = stamps.map((t, i) => {
-    const dur = (i + 1 < stamps.length ? stamps[i + 1] - t : 80) / 1000;
+    const dur = i + 1 < stamps.length ? stamps[i + 1] - t : 0.08;
     return `file 'frames/f${String(i).padStart(5, '0')}.jpg'\nduration ${dur.toFixed(4)}`;
   }).join('\n') + `\nfile 'frames/f${String(stamps.length - 1).padStart(5, '0')}.jpg'\n`;
   fs.writeFileSync(path.join(OUT, 'frames.txt'), list);
   const mp4 = path.join(OUT, 'ngedate-tiktok.mp4');
   execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', 'frames.txt',
     '-vf', 'fps=30,format=yuv420p', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', mp4], { cwd: OUT });
-  const total = (stamps[stamps.length - 1] - stamps[0]) / 1000;
+  const total = stamps[stamps.length - 1] - stamps[0];
   console.log(`selesai: ${mp4}\n${stamps.length} frame, ${total.toFixed(1)} dtk, ~${(stamps.length / total).toFixed(1)} fps tangkapan -> 30 fps`);
 })();

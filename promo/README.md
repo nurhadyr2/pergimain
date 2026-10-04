@@ -1,6 +1,6 @@
 # Konten TikTok — "Ngedate Bareng Ayang"
 
-Video 9:16 (1080×1920, 30 fps, ±50 detik) direkam **langsung dari aplikasinya** dengan data contoh,
+Video 9:16 (1080×1920, 30 fps, ±50 detik) direkam **langsung dari aplikasinya** (screencast 60 fps, dipadatkan ke 30) dengan data contoh,
 jadi tidak ada riwayat asli kalian yang ikut tampil. File: `ngedate-tiktok.mp4`.
 
 > **Video ini tanpa suara.** Saat upload, pilih *sound* yang lagi tren di TikTok (lo-fi / cute / chill
@@ -12,17 +12,17 @@ jadi tidak ada riwayat asli kalian yang ikut tampil. File: `ngedate-tiktok.mp4`.
 | Detik | Yang tampil | Teks di layar |
 |------:|-------------|---------------|
 | 0–1 | Beranda aplikasi | **pacar: "terserah~" 🙄** |
-| 1–2 | | **aku: *bikin website* 💻** |
-| 2–5 | Jari tekan SPIN, nama tempat berputar | **biar semesta yang milih ✨** |
-| 5–8 | Hasil: Museum Nasional + "belum pernah ke sini" | **nggak ada lagi debat 1 jam 😮‍💨** — *bahkan tau kalian udah pernah ke sana atau belum* |
-| 8–14 | Filter HEMAT + BELUM PERNAH → spin → Taman Suropati (gratis) | **tanggal tua? 💸** — *filter budget + "belum pernah"* → **gratis & belum pernah 🌿** |
-| 14–18 | Tombol JADWALKAN → pilih tanggal | **belum bisa sekarang?** — *jadwalin aja 📌* |
-| 18–23 | Tab Riwayat: kalender ♥ ★ 📌, ketuk tanggal → detail | **kalender kencan kita ♥** — *♥ udah pergi · ★ naik level · 📌 rencana* |
-| 23–30 | Ketuk 📌 → UDAH PERGI → **perayaan naik level LV.03 "Partner Jajan"** | **abis jalan? tandain ✅** → **tiap 3x jalan NAIK LEVEL 🎉** — *dapet gelar baru tiap level* |
-| 30–37 | Jurnal: 5 hati, ketik cerita, tambah foto, simpan | **terus tulis ceritanya 📸** — *rating · catatan · foto* |
-| 37–42 | Pilih kategori → karakter berkomentar, kucing tidur | **karakternya ikut komen 💬** — *beda kategori, beda celetukan* |
-| 42–45 | Layar kunci PIN | **cuma kita berdua yang bisa buka 🔒** |
-| 45–50 | Kartu penutup: karakter, link, Zavokra, CTA | **ngedatebarengayang.zavokra.com** — *bikin buat kita berdua ♥* — *dibikin sama ZAVOKRA* — *mau versi kalian? DM ya 💌* |
+| 1–2 | | **aku: *bikin website*** |
+| 2–5 | Jari tekan SPIN, nama tempat berputar | **biar semesta yang milih** |
+| 5–8 | Hasil: Museum Nasional + "belum pernah ke sini" | **nggak ada lagi debat 1 jam 😮‍💨** — *bahkan tau udah pernah ke sana atau belum* |
+| 8–14 | Filter HEMAT + BELUM PERNAH → spin → Taman Suropati (gratis) | **tanggal tua? 🥲** — *ada filter budget + "belum pernah"* → **gratis & belum pernah** |
+| 14–18 | Tombol JADWALKAN → pilih tanggal | **belum bisa sekarang?** — *jadwalin aja, masuk kalender* |
+| 18–23 | Tab Riwayat: kalender ♥ ★ 📌, ketuk tanggal → detail | **kalender kencan kita** — *♥ udah pergi · ★ naik level · rencana* |
+| 23–30 | Ketuk 📌 → UDAH PERGI → **perayaan naik level LV.03 "Partner Jajan"** | **abis jalan? tandain** → **tiap 3x jalan NAIK LEVEL 🥳** — *dapet gelar baru tiap level* |
+| 30–37 | Jurnal: 5 hati, ketik cerita, tambah foto, simpan | **terus tulis ceritanya** — *rating · catatan · foto* |
+| 37–42 | Pilih kategori → karakter berkomentar, kucing tidur | **karakternya ikut komen** — *beda kategori, beda celetukan* |
+| 42–45 | Layar kunci PIN | **cuma kita berdua yang bisa buka** |
+| 45–50 | Kartu penutup: karakter, link, Zavokra, CTA | **ngedatebarengayang.zavokra.com** — *dibikin buat kita berdua* — *dibikin sama ZAVOKRA* — *mau versi kalian? DM ya* |
 
 **Kenapa 5 detik pertamanya begini:** baris pertama adalah kalimat yang hampir semua pasangan pernah
 dengar ("terserah"), jadi penonton langsung merasa *"ini gue banget"*. Baris kedua memberi twist
@@ -79,5 +79,6 @@ cd frontend && npm run build && npx vite preview --port 4173 &
 node promo/record-tiktok.cjs promo/out      # hasil: promo/out/ngedate-tiktok.mp4
 ```
 
-Semua teks, tempo, dan data contoh ada di `promo/record-tiktok.cjs`. Nama tempat contoh bisa diganti
+Semua teks, tempo, dan data contoh ada di `promo/record-tiktok.cjs`. Caption di layar otomatis mengecilkan
+huruf sampai muat di kotaknya; pakai `<br>` untuk memaksa ganti baris. Emoji sengaja dibatasi ke ekspresi wajah saja. Nama tempat contoh bisa diganti
 dengan tempat favorit kalian supaya terasa lebih personal.
