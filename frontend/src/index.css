@@ -147,3 +147,10 @@
 
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 .floaty { animation: floaty 2.2s ease-in-out infinite; }
+
+/* Karakter kamar desktop: kalau jendela terlalu pendek, artwork mengecil
+   dan zona samping ketutup panel — sembunyikan saja. */
+.room-chars { display: none; }
+@media (min-height: 560px) {
+  .room-chars { display: block; }
+}
