@@ -15,7 +15,18 @@ const priceRange = [
 const pad = (n) => String(n).padStart(2, '0');
 const toInputDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-export default function ResultCard({ place, onRespin, onChoose, onPlan, chosen, planned }) {
+// Catatan kecil dari mesin spin: belum pernah / terakhir ke sini kapan / sudah direncanakan.
+function visitNote(meta) {
+  if (!meta) return null;
+  if (meta.isPlanned) return { text: 'udah ada di rencana kalian', color: '#2f9e6e' };
+  if (meta.lastVisitDays == null) return { text: 'belum pernah ke sini, cobain yuk!', color: '#2f9e6e' };
+  if (meta.lastVisitDays === 0) return { text: 'baru hari ini ke sini lho', color: '#e45f97' };
+  if (meta.lastVisitDays < 30) return { text: `terakhir ke sini ${meta.lastVisitDays} hari lalu`, color: '#e45f97' };
+  if (meta.lastVisitDays < 365) return { text: `terakhir ke sini ${Math.round(meta.lastVisitDays / 30)} bulan lalu`, color: '#8367c7' };
+  return { text: 'udah lama banget nggak ke sini', color: '#8367c7' };
+}
+
+export default function ResultCard({ place, onRespin, onChoose, onPlan, chosen, planned, meta }) {
   const [planning, setPlanning] = useState(false);
   const [date, setDate] = useState(() => {
     const t = new Date();
@@ -31,6 +42,7 @@ export default function ResultCard({ place, onRespin, onChoose, onPlan, chosen, 
       `${place.name} ${place.address || ''}`.trim()
     )}`;
   const today = toInputDate(new Date());
+  const note = visitNote(meta);
 
   const submitPlan = async (e) => {
     e.preventDefault();
@@ -74,6 +86,11 @@ export default function ResultCard({ place, onRespin, onChoose, onPlan, chosen, 
       {place.description && (
         <p className="font-body" style={{ fontSize: 18, color: '#5a4a80', marginTop: 10 }}>
           {place.description}
+        </p>
+      )}
+      {note && (
+        <p className="font-body" style={{ fontSize: 16, color: note.color, marginTop: 6 }}>
+          <FontAwesomeIcon icon={ui.sparkle} />&nbsp;{note.text}
         </p>
       )}
 

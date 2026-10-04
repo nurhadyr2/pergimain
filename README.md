@@ -88,7 +88,7 @@ Token didapat dari login PIN (`APP_PIN` di `.env` backend). Salah 5x berturut-tu
 | GET | `/api/auth/me` | cek token masih berlaku |
 | GET | `/api/categories` | daftar kategori |
 | GET | `/api/places?categories=makan,ngopi` | daftar tempat (filter opsional) |
-| GET | `/api/spin?categories=…` | pool kandidat + 1 pemenang acak |
+| GET | `/api/spin?categories=…&budget=hemat\|sedang\|royal&fresh=1` | pool kandidat + pemenang berbobot anti-bosan (baru dikunjungi jarang keluar lagi; `fresh` = hanya yang belum pernah) + `meta.lastVisitDays` |
 | POST | `/api/places` | tambah tempat |
 | PUT | `/api/places/:id` | ubah tempat |
 | DELETE | `/api/places/:id` | hapus tempat |

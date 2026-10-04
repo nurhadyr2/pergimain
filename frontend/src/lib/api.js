@@ -23,14 +23,20 @@ async function req(path, options = {}) {
   return res.json();
 }
 
-const qs = (slugs) => (slugs?.length ? `?categories=${slugs.join(',')}` : '');
+const qs = (slugs, extra = {}) => {
+  const q = new URLSearchParams();
+  if (slugs?.length) q.set('categories', slugs.join(','));
+  for (const [k, v] of Object.entries(extra)) if (v) q.set(k, v === true ? '1' : v);
+  const s = q.toString();
+  return s ? `?${s}` : '';
+};
 
 export const api = {
   login: (pin) => req('/api/auth/login', { method: 'POST', body: JSON.stringify({ pin }) }),
   me: () => req('/api/auth/me'),
   categories: () => req('/api/categories'),
   places: (slugs = []) => req(`/api/places${qs(slugs)}`),
-  spin: (slugs = []) => req(`/api/spin${qs(slugs)}`),
+  spin: (slugs = [], { budget, fresh } = {}) => req(`/api/spin${qs(slugs, { budget, fresh })}`),
   addPlace: (body) => req('/api/places', { method: 'POST', body: JSON.stringify(body) }),
   updatePlace: (id, body) => req(`/api/places/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   deletePlace: (id) => req(`/api/places/${id}`, { method: 'DELETE' }),

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Header from './components/layout/Header';
 import CategoryPicker from './components/CategoryPicker';
+import SpinFilters from './components/SpinFilters';
 import SpinMachine from './components/SpinMachine';
 import ResultCard from './components/ResultCard';
 import HistoryList from './components/HistoryList';
@@ -53,7 +54,9 @@ function Home({ onLock }) {
 
   const [tab, setTab] = useState('spin'); // 'spin' | 'riwayat'
   const [selected, setSelected] = useState([]);
-  const [spin, setSpin] = useState({ pool: [], winner: null, spinId: 0 });
+  const [budget, setBudget] = useState(''); // '' | 'hemat' | 'sedang' | 'royal'
+  const [fresh, setFresh] = useState(false); // hanya tempat yang belum pernah
+  const [spin, setSpin] = useState({ pool: [], winner: null, spinId: 0, meta: null });
   const [result, setResult] = useState(null);
   const [chosen, setChosen] = useState(false);
   const [planned, setPlanned] = useState(null); // ISO tanggal rencana untuk hasil spin ini
@@ -75,8 +78,8 @@ function Home({ onLock }) {
     setChosen(false);
     setPlanned(null);
     try {
-      const { pool, winner } = await api.spin(selected);
-      setSpin({ pool, winner, spinId: Date.now() });
+      const { pool, winner, meta } = await api.spin(selected, { budget, fresh });
+      setSpin({ pool, winner, spinId: Date.now(), meta });
     } catch (e) {
       setError(e.message);
       setSpinning(false);
@@ -172,7 +175,10 @@ function Home({ onLock }) {
                 gagal konek server: {catError}
               </p>
             ) : (
-              <CategoryPicker categories={categories} selected={selected} onToggle={toggle} disabled={spinning} />
+              <>
+                <CategoryPicker categories={categories} selected={selected} onToggle={toggle} disabled={spinning} />
+                <SpinFilters budget={budget} onBudget={setBudget} fresh={fresh} onFresh={setFresh} disabled={spinning} />
+              </>
             )}
 
             <SpinMachine
@@ -209,6 +215,7 @@ function Home({ onLock }) {
                 onPlan={handlePlan}
                 chosen={chosen}
                 planned={planned}
+                meta={spin.meta}
               />
             )}
           </main>

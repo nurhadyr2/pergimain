@@ -2,7 +2,7 @@
 import {
   faPen, faTrash, faXmark, faHeart, faLocationDot, faBookmark,
   faDice, faBook, faGear, faStar, faChevronLeft, faChevronRight, faCalendarDays, faLock,
-  faThumbtack, faCamera, faCheck, faCalendarPlus, faHeartCrack,
+  faThumbtack, faCamera, faCheck, faCalendarPlus, faHeartCrack, faCoins, faWandMagicSparkles,
   faBowlRice, faFilm, faLandmark, faCat, faTree, faPersonWalking,
   faGamepad, faBagShopping, faMugHot,
 } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +27,8 @@ export const ui = {
   check: faCheck,
   plan: faCalendarPlus,
   heartOff: faHeartCrack,
+  coins: faCoins,
+  sparkle: faWandMagicSparkles,
 };
 
 // Ikon per slug kategori.
