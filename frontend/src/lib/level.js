@@ -14,3 +14,26 @@ export function levelFrom(trips) {
     progress: into / PER, // 0..1 menuju level berikutnya
   };
 }
+
+// Gelar per level. Level di antara dua entri memakai gelar di bawahnya;
+// di atas entri terakhir tetap gelar terakhir.
+const TITLES = [
+  [1, 'Baru Kenal'],
+  [2, 'Mulai Akrab'],
+  [3, 'Partner Jajan'],
+  [4, 'Teman Nongkrong'],
+  [5, 'Duo Kulineran'],
+  [6, 'Penjelajah Kota'],
+  [7, 'Pemburu Hidden Gem'],
+  [8, 'Pasangan Petualang'],
+  [10, 'Sahabat Sejalan'],
+  [12, 'Legenda Kencan'],
+  [15, 'Pemilik Peta Kota'],
+  [20, 'Kita Semesta Sendiri'],
+];
+
+export function titleFor(level) {
+  let title = TITLES[0][1];
+  for (const [min, t] of TITLES) if (level >= min) title = t;
+  return title;
+}

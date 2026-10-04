@@ -103,6 +103,11 @@ Token didapat dari login PIN (`APP_PIN` di `.env` backend). Salah 5x berturut-tu
 Default disimpan di disk server (`backend/uploads/`, di-gitignore). Isi `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
 di `.env` backend untuk menyimpan ke Supabase Storage (bucket `kenangan`, dibuat otomatis, publik).
 
+### Level, gelar & karakter
+Level naik tiap 3 kunjungan (`frontend/src/lib/level.js`, termasuk daftar gelar per level). Saat naik level muncul
+perayaan (`components/LevelUp.jsx`). Balon kata karakter bereaksi ke kategori, spin, hasil, simpan, rencana, dan jam
+(`lib/dialog.js`, satu baris balon maks ±16 karakter).
+
 ### Sinkron dua HP
 Riwayat dimuat ulang saat aplikasi dibuka kembali dari background dan tiap 60 detik selama layar aktif,
 jadi yang disimpan di satu HP muncul di HP lainnya tanpa refresh manual.

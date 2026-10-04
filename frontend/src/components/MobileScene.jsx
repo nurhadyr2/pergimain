@@ -1,5 +1,8 @@
-import girl from '../Character dan Layout Kamar/assets/characters/girl-peace.png';
-import boy from '../Character dan Layout Kamar/assets/characters/boy-peace.png';
+import girlPeace from '../Character dan Layout Kamar/assets/characters/girl-peace.png';
+import boyPeace from '../Character dan Layout Kamar/assets/characters/boy-peace.png';
+import girlIdle from '../Character dan Layout Kamar/assets/characters/girl-idle.png';
+import boyIdle from '../Character dan Layout Kamar/assets/characters/boy-idle.png';
+import CatZzz from './CatZzz';
 import bubbleL from '../Character dan Layout Kamar/assets/bubbles/bubble-left.png';
 import bubbleR from '../Character dan Layout Kamar/assets/bubbles/bubble-right.png';
 import desk from '../Character dan Layout Kamar/assets/room/desk-laptop-coffee.png';
@@ -52,7 +55,13 @@ function Bubble({ src, children, style }) {
   );
 }
 
-export default function MobileScene() {
+const DEFAULT_LINES = { girl: 'Mau makan aja?', boy: 'Spin aja, seru~' };
+
+// lines: { girl, boy } teks balon; pose: 'idle' | 'peace'; jump: lompat kegirangan.
+export default function MobileScene({ lines = DEFAULT_LINES, pose = 'idle', jump = false }) {
+  const girl = pose === 'peace' ? girlPeace : girlIdle;
+  const boy = pose === 'peace' ? boyPeace : boyIdle;
+  const charCls = jump ? 'char-jump' : '';
   return (
     <div
       className="pointer-events-none relative left-1/2 mt-auto w-screen -translate-x-1/2 overflow-hidden lg:hidden"
@@ -76,13 +85,14 @@ export default function MobileScene() {
       <Sprite src={sofa} w={196} className="hidden sm:block" style={{ bottom: FLOOR_H - 4, left: 'calc(50% + 80px)' }} />
       <Sprite src={desk} w={132} style={{ bottom: FLOOR_H - 2, left: '50%', transform: 'translateX(-50%)' }} />
       <Sprite src={cat} w={92} style={{ bottom: 8, left: '50%', transform: 'translateX(-50%)' }} />
+      <CatZzz style={{ bottom: 44, left: 'calc(50% + 30px)' }} />
 
       {/* Karakter + balon */}
-      <Sprite src={girl} w={112} style={{ bottom: 12, left: 4 }} />
-      <Bubble src={bubbleL} style={{ bottom: 128, left: 14 }}>Mau makan aja?</Bubble>
+      <Sprite key={girl} src={girl} w={112} className={charCls} style={{ bottom: 12, left: 4 }} />
+      <Bubble src={bubbleL} style={{ bottom: 128, left: 14 }}>{lines.girl}</Bubble>
 
-      <Sprite src={boy} w={112} style={{ bottom: 12, right: 4 }} />
-      <Bubble src={bubbleR} style={{ bottom: 128, right: 14 }}>Spin aja, seru~</Bubble>
+      <Sprite key={boy} src={boy} w={112} className={charCls} style={{ bottom: 12, right: 4 }} />
+      <Bubble src={bubbleR} style={{ bottom: 128, right: 14 }}>{lines.boy}</Bubble>
     </div>
   );
 }

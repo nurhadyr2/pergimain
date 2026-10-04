@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ui } from '../../lib/icons';
+import { titleFor } from '../../lib/level';
 
 function useClock() {
   const [now, setNow] = useState(new Date());
@@ -34,6 +35,9 @@ export default function Header({ level = 1, progress = 0, toNext = 0 }) {
           <span className="pix-title" style={{ fontSize: 8 }}>LV.{lv}</span>
           <span className="lv-bar" title={`${toNext} kunjungan lagi menuju level berikutnya`}>
             <i style={{ width: `${Math.round(progress * 100)}%` }} />
+          </span>
+          <span className="pix-title truncate" style={{ fontSize: 6.5, color: '#8367c7', maxWidth: 110 }} title="gelar kalian">
+            {titleFor(level).toUpperCase()}
           </span>
         </div>
         <span className="pix-title hidden sm:inline" style={{ fontSize: 8 }}>

@@ -1,7 +1,10 @@
 import roomBg from '../Character dan Layout Kamar/assets/layouts/room-sides-bg.png';
 import roomTile from '../Character dan Layout Kamar/assets/layouts/room-tile.png';
-import girl from '../Character dan Layout Kamar/assets/characters/girl-peace.png';
-import boy from '../Character dan Layout Kamar/assets/characters/boy-peace.png';
+import girlPeace from '../Character dan Layout Kamar/assets/characters/girl-peace.png';
+import boyPeace from '../Character dan Layout Kamar/assets/characters/boy-peace.png';
+import girlIdle from '../Character dan Layout Kamar/assets/characters/girl-idle.png';
+import boyIdle from '../Character dan Layout Kamar/assets/characters/boy-idle.png';
+import CatZzz from './CatZzz';
 import bubbleL from '../Character dan Layout Kamar/assets/bubbles/bubble-left.png';
 import bubbleR from '../Character dan Layout Kamar/assets/bubbles/bubble-right.png';
 
@@ -57,7 +60,13 @@ function Bubble({ src, box, children }) {
   );
 }
 
-export default function RoomScene() {
+const DEFAULT_LINES = { girl: 'Mau makan aja?', boy: 'Spin aja, seru~' };
+
+// lines: { girl, boy } teks balon; pose: 'idle' | 'peace'; jump: lompat kegirangan.
+export default function RoomScene({ lines = DEFAULT_LINES, pose = 'idle', jump = false }) {
+  const girl = pose === 'peace' ? girlPeace : girlIdle;
+  const boy = pose === 'peace' ? boyPeace : boyIdle;
+  const charCls = `absolute ${jump ? 'char-jump' : ''}`;
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0 lg:hidden" style={{ background: `#e8dcf6 url("${MOBILE_WALL_SVG}")` }} />
@@ -92,12 +101,15 @@ export default function RoomScene() {
       >
         <img src={roomBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full" style={pix} />
 
-        <div className="room-chars">
-          <img src={girl} alt="" aria-hidden="true" className="absolute" style={{ ...pix, ...GIRL }} />
-          <Bubble src={bubbleR} box={GIRL_BUBBLE}>Mau makan aja?</Bubble>
+        {/* Kucing tidur ada di artwork (kiri bawah); "z" melayang di atas kepalanya */}
+        <CatZzz style={{ left: '8.6%', top: '88%' }} />
 
-          <img src={boy} alt="" aria-hidden="true" className="absolute" style={{ ...pix, ...BOY }} />
-          <Bubble src={bubbleL} box={BOY_BUBBLE}>Spin aja, seru~</Bubble>
+        <div className="room-chars">
+          <img key={girl} src={girl} alt="" aria-hidden="true" className={charCls} style={{ ...pix, ...GIRL }} />
+          <Bubble src={bubbleR} box={GIRL_BUBBLE}>{lines.girl}</Bubble>
+
+          <img key={boy} src={boy} alt="" aria-hidden="true" className={charCls} style={{ ...pix, ...BOY }} />
+          <Bubble src={bubbleL} box={BOY_BUBBLE}>{lines.boy}</Bubble>
         </div>
       </div>
     </div>
