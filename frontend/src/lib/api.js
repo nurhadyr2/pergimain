@@ -5,10 +5,11 @@ const BASE = import.meta.env.VITE_API_URL || '';
 
 async function req(path, options = {}) {
   const token = getToken();
+  const isForm = options.body instanceof FormData; // biarkan browser yang set boundary multipart
   const res = await fetch(`${BASE}${path}`, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      ...(isForm ? {} : { 'Content-Type': 'application/json' }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
@@ -35,5 +36,12 @@ export const api = {
   deletePlace: (id) => req(`/api/places/${id}`, { method: 'DELETE' }),
   history: (limit = 20) => req(`/api/history?limit=${limit}`),
   addHistory: (body) => req('/api/history', { method: 'POST', body: JSON.stringify(body) }),
+  updateHistory: (id, body) => req(`/api/history/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+  uploadHistoryPhoto: (id, blob) => {
+    const fd = new FormData();
+    fd.append('photo', blob, 'foto.jpg');
+    return req(`/api/history/${id}/photo`, { method: 'POST', body: fd });
+  },
+  deleteHistoryPhoto: (id) => req(`/api/history/${id}/photo`, { method: 'DELETE' }),
   deleteHistory: (id) => req(`/api/history/${id}`, { method: 'DELETE' }),
 };

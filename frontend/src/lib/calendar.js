@@ -1,4 +1,4 @@
-// Util kalender: kelompokkan riwayat per hari + tandai hari naik level.
+// Util kalender: kelompokkan riwayat per hari + tandai hari naik level & hari rencana.
 import { levelFrom } from './level';
 
 export const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGU', 'SEP', 'OKT', 'NOV', 'DES'];
@@ -12,22 +12,42 @@ export const dayKey = (d) => {
   return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`;
 };
 
-// Map dayKey -> { trips: [...riwayat], levelUp: nomor level | null }.
-// Diurut dari yang paling lama: kunjungan ke-PER, 2*PER, ... adalah momen naik level.
+// 'planned' = rencana (📌), selain itu = sudah pergi (♥) dan dihitung ke level.
+export const isPlanned = (h) => h.status === 'planned';
+export const isDone = (h) => !isPlanned(h);
+export const planDate = (h) => h.plannedAt || h.spunAt;
+
+export const fmtDay = (d) =>
+  new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+
+// Map dayKey -> { trips: [...sudah pergi], plans: [...rencana], levelUp: nomor level | null }.
+// Kunjungan diurut dari yang paling lama: ke-PER, 2*PER, ... adalah momen naik level.
 export function indexTrips(items) {
-  const asc = [...items].sort((a, b) => new Date(a.spunAt) - new Date(b.spunAt));
-  const { per } = levelFrom(0);
   const map = new Map();
-  asc.forEach((h, i) => {
-    const k = dayKey(h.spunAt);
-    const day = map.get(k) || { trips: [], levelUp: null };
-    day.trips.push(h);
-    const n = i + 1;
-    if (n % per === 0) day.levelUp = n / per + 1;
-    map.set(k, day);
-  });
+  const at = (k) => {
+    if (!map.has(k)) map.set(k, { trips: [], plans: [], levelUp: null });
+    return map.get(k);
+  };
+
+  const { per } = levelFrom(0);
+  items
+    .filter(isDone)
+    .sort((a, b) => new Date(a.spunAt) - new Date(b.spunAt))
+    .forEach((h, i) => {
+      const day = at(dayKey(h.spunAt));
+      day.trips.push(h);
+      const n = i + 1;
+      if (n % per === 0) day.levelUp = n / per + 1;
+    });
+
+  items.filter(isPlanned).forEach((h) => at(dayKey(planDate(h))).plans.push(h));
+
   return map;
 }
+
+// Semua rencana, yang terdekat dulu (yang sudah lewat tanggalnya tetap tampil sampai ditandai/dibatalkan).
+export const upcomingPlans = (items) =>
+  items.filter(isPlanned).sort((a, b) => new Date(planDate(a)) - new Date(planDate(b)));
 
 // Sel grid satu bulan (kolom pertama = Senin). null = sel kosong di awal/akhir.
 export function monthGrid(y, m) {

@@ -8,6 +8,7 @@ import SpinMachine from './components/SpinMachine';
 import ResultCard from './components/ResultCard';
 import HistoryList from './components/HistoryList';
 import TripCalendar from './components/TripCalendar';
+import JournalModal from './components/JournalModal';
 import ManagePlacesModal from './components/ManagePlacesModal';
 import RoomScene from './components/RoomScene';
 import MobileScene from './components/MobileScene';
@@ -19,6 +20,7 @@ import { useAuth } from './hooks/useAuth';
 import { api } from './lib/api';
 import { ui } from './lib/icons';
 import { levelFrom } from './lib/level';
+import { isDone } from './lib/calendar';
 
 // Gerbang PIN: isi aplikasi (dan semua fetch-nya) baru dipasang setelah terbuka.
 export default function App() {
@@ -39,6 +41,12 @@ export default function App() {
   return <Home onLock={auth.lock} />;
 }
 
+// "YYYY-MM-DD" dari <input type=date> -> jam 12 siang waktu lokal, biar tanggalnya tidak geser di zona waktu mana pun.
+const localNoon = (ymd) => {
+  const [y, m, d] = ymd.split('-').map(Number);
+  return new Date(y, m - 1, d, 12).toISOString();
+};
+
 function Home({ onLock }) {
   const { categories, loading, error: catError } = useCategories();
   const history = useHistory();
@@ -48,9 +56,11 @@ function Home({ onLock }) {
   const [spin, setSpin] = useState({ pool: [], winner: null, spinId: 0 });
   const [result, setResult] = useState(null);
   const [chosen, setChosen] = useState(false);
+  const [planned, setPlanned] = useState(null); // ISO tanggal rencana untuk hasil spin ini
   const [spinning, setSpinning] = useState(false);
   const [error, setError] = useState('');
   const [manageOpen, setManageOpen] = useState(false);
+  const [journalId, setJournalId] = useState(null);
 
   const toggle = (slug) =>
     setSelected((prev) =>
@@ -63,6 +73,7 @@ function Home({ onLock }) {
     setError('');
     setResult(null);
     setChosen(false);
+    setPlanned(null);
     try {
       const { pool, winner } = await api.spin(selected);
       setSpin({ pool, winner, spinId: Date.now() });
@@ -77,6 +88,7 @@ function Home({ onLock }) {
     setResult(winner);
   };
 
+  // Pergi sekarang: langsung jadi riwayat (♥) dan dihitung ke level.
   const handleChoose = async () => {
     if (!result) return;
     try {
@@ -87,7 +99,49 @@ function Home({ onLock }) {
     }
   };
 
-  const lvl = levelFrom(history.items.length);
+  // Jadwalkan: masuk kalender sebagai rencana (📌), belum dihitung ke level.
+  const handlePlan = async (ymd) => {
+    if (!result) return;
+    try {
+      const iso = localNoon(ymd);
+      await history.add(result, { plannedAt: iso });
+      setPlanned(iso);
+    } catch (e) {
+      setError(e.message);
+      throw e;
+    }
+  };
+
+  const handleDone = async (h) => {
+    try {
+      const updated = await history.update(h.id, { status: 'done' });
+      setJournalId(updated.id); // langsung tawarkan tulis cerita
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const handleCancelPlan = async (h) => {
+    if (!confirm(`Batalkan rencana ke ${h.placeName}?`)) return;
+    try {
+      await history.remove(h.id);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm('Hapus riwayat ini?')) return;
+    try {
+      await history.remove(id);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  // Level hanya dari yang sudah pergi; rencana belum dihitung.
+  const lvl = levelFrom(history.items.filter(isDone).length);
+  const journalItem = journalId ? history.items.find((h) => h.id === journalId) : null;
 
   const NavBtn = ({ id, label, icon, onClick, on }) => (
     <button
@@ -148,15 +202,38 @@ function Home({ onLock }) {
             )}
 
             {result && !spinning && (
-              <ResultCard place={result} onRespin={handleSpin} onChoose={handleChoose} chosen={chosen} />
+              <ResultCard
+                place={result}
+                onRespin={handleSpin}
+                onChoose={handleChoose}
+                onPlan={handlePlan}
+                chosen={chosen}
+                planned={planned}
+              />
             )}
           </main>
         )}
 
         {tab === 'riwayat' && (
           <main className="flex flex-col gap-4">
-            <TripCalendar items={history.items} />
-            <HistoryList items={history.items} onDelete={history.remove} />
+            {(error || history.error) && (
+              <p className="font-body text-center" style={{ fontSize: 17, color: '#e45f97' }}>
+                {error || `riwayat gagal dimuat: ${history.error}`}
+              </p>
+            )}
+            <TripCalendar
+              items={history.items}
+              onJournal={(h) => setJournalId(h.id)}
+              onDone={handleDone}
+              onCancelPlan={handleCancelPlan}
+            />
+            <HistoryList
+              items={history.items}
+              onDelete={handleDelete}
+              onJournal={(h) => setJournalId(h.id)}
+              onDone={handleDone}
+              onCancelPlan={handleCancelPlan}
+            />
           </main>
         )}
 
@@ -186,6 +263,16 @@ function Home({ onLock }) {
         categories={categories}
         onChanged={() => {}}
       />
+
+      {journalItem && (
+        <JournalModal
+          item={journalItem}
+          onClose={() => setJournalId(null)}
+          onSave={history.update}
+          onPhoto={history.uploadPhoto}
+          onRemovePhoto={history.removePhoto}
+        />
+      )}
     </div>
   );
 }

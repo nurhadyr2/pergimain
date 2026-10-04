@@ -92,6 +92,17 @@ Token didapat dari login PIN (`APP_PIN` di `.env` backend). Salah 5x berturut-tu
 | POST | `/api/places` | tambah tempat |
 | PUT | `/api/places/:id` | ubah tempat |
 | DELETE | `/api/places/:id` | hapus tempat |
-| GET | `/api/history` | riwayat pilihan |
-| POST | `/api/history` | simpan pilihan |
-| DELETE | `/api/history/:id` | hapus riwayat |
+| GET | `/api/history` | riwayat + rencana (`status`: `done` / `planned`) |
+| POST | `/api/history` | simpan pilihan; isi `plannedAt` → jadi rencana |
+| PATCH | `/api/history/:id` | ubah `status`, `plannedAt`, jurnal (`note`, `rating` 1-5) |
+| POST | `/api/history/:id/photo` | upload foto jurnal (multipart `photo`, maks 8MB) |
+| DELETE | `/api/history/:id/photo` | hapus foto jurnal |
+| DELETE | `/api/history/:id` | hapus riwayat / batalkan rencana |
+
+### Foto jurnal
+Default disimpan di disk server (`backend/uploads/`, di-gitignore). Isi `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
+di `.env` backend untuk menyimpan ke Supabase Storage (bucket `kenangan`, dibuat otomatis, publik).
+
+### Sinkron dua HP
+Riwayat dimuat ulang saat aplikasi dibuka kembali dari background dan tiap 60 detik selama layar aktif,
+jadi yang disimpan di satu HP muncul di HP lainnya tanpa refresh manual.

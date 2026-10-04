@@ -27,6 +27,9 @@ app.get('/healthz', (_req, res) =>
 // API
 app.use('/api', routes);
 
+// Foto jurnal yang disimpan di disk server (kalau Supabase Storage tidak diatur).
+app.use('/uploads', express.static(require('./services/storage.service').UPLOAD_DIR, { maxAge: '30d' }));
+
 // Sajikan frontend statis (hasil build Vite) + fallback SPA.
 // Struktur di server: backend/src -> ../../frontend/dist
 const distPath = path.join(__dirname, '..', '..', 'frontend', 'dist');

@@ -70,6 +70,9 @@ CORS_ORIGIN=https://mainhariini.vercel.app
 ```
 
 ## Catatan
+- Setiap update yang membawa migrasi baru (mis. rencana & jurnal): jalankan `npm run db:migrate` sebelum restart.
+- Foto jurnal default ke `backend/uploads/` — ikutkan folder ini di backup server. Atau isi `SUPABASE_URL` +
+  `SUPABASE_SERVICE_ROLE_KEY` supaya foto ke Supabase Storage.
 - `APP_PIN` wajib diisi; backend menolak start tanpa itu. Ganti PIN lalu `pm2 restart` = semua HP harus login ulang.
 - Pastikan port diteruskan dari router ke server (port forwarding) bila diakses dari internet.
 - Jangan commit `.env`. Service key / password DB bersifat rahasia.
