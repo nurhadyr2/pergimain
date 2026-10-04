@@ -1,13 +1,22 @@
+import { getToken, notifyUnauth } from './auth';
+
 // Kosong = same-origin (frontend disajikan oleh backend). Isi VITE_API_URL bila backend beda host.
 const BASE = import.meta.env.VITE_API_URL || '';
 
 async function req(path, options = {}) {
+  const token = getToken();
   const res = await fetch(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options.headers,
+    },
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
+    // Token kadaluarsa / PIN diganti -> kunci lagi (kecuali saat lagi coba login).
+    if (res.status === 401 && !path.startsWith('/api/auth/login')) notifyUnauth();
     throw new Error(body.error || `HTTP ${res.status}`);
   }
   return res.json();
@@ -16,6 +25,8 @@ async function req(path, options = {}) {
 const qs = (slugs) => (slugs?.length ? `?categories=${slugs.join(',')}` : '');
 
 export const api = {
+  login: (pin) => req('/api/auth/login', { method: 'POST', body: JSON.stringify({ pin }) }),
+  me: () => req('/api/auth/me'),
   categories: () => req('/api/categories'),
   places: (slugs = []) => req(`/api/places${qs(slugs)}`),
   spin: (slugs = []) => req(`/api/spin${qs(slugs)}`),

@@ -1,6 +1,11 @@
 const { Router } = require('express');
+const requireAuth = require('../middlewares/requireAuth');
 
 const router = Router();
+
+// Login PIN bebas diakses; sisanya wajib token.
+router.use('/auth', require('./auth.routes'));
+router.use(requireAuth);
 
 router.use('/categories', require('./category.routes'));
 router.use('/places', require('./place.routes'));

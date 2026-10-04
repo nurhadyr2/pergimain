@@ -11,14 +11,35 @@ import TripCalendar from './components/TripCalendar';
 import ManagePlacesModal from './components/ManagePlacesModal';
 import RoomScene from './components/RoomScene';
 import MobileScene from './components/MobileScene';
+import PinGate from './components/PinGate';
 
 import { useCategories } from './hooks/useCategories';
 import { useHistory } from './hooks/useHistory';
+import { useAuth } from './hooks/useAuth';
 import { api } from './lib/api';
 import { ui } from './lib/icons';
 import { levelFrom } from './lib/level';
 
+// Gerbang PIN: isi aplikasi (dan semua fetch-nya) baru dipasang setelah terbuka.
 export default function App() {
+  const auth = useAuth();
+
+  if (auth.status !== 'ok') {
+    return (
+      <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col px-3 pt-4 lg:pb-4">
+        <RoomScene />
+        <div className="flex flex-1 flex-col justify-center pb-8">
+          <PinGate onSubmit={auth.login} checking={auth.status === 'checking'} />
+        </div>
+        <MobileScene />
+      </div>
+    );
+  }
+
+  return <Home onLock={auth.lock} />;
+}
+
+function Home({ onLock }) {
   const { categories, loading, error: catError } = useCategories();
   const history = useHistory();
 
@@ -151,7 +172,10 @@ export default function App() {
       </div>
 
       <p className="font-body mt-4 text-center" style={{ fontSize: 16, color: '#9f86d9' }}>
-        dibuat buat kita berdua
+        dibuat buat kita berdua ·{' '}
+        <button type="button" className="underline" onClick={onLock} style={{ color: '#9f86d9' }}>
+          <FontAwesomeIcon icon={ui.lock} style={{ fontSize: 11 }} /> kunci
+        </button>
       </p>
 
       <MobileScene />

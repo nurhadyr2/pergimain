@@ -9,6 +9,9 @@ const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
+// Di balik Caddy/Nginx: pakai IP asli klien (untuk rem percobaan PIN).
+app.set('trust proxy', 1);
+
 // CORS
 const origins = (process.env.CORS_ORIGIN || '*').split(',').map((s) => s.trim());
 app.use(cors({ origin: origins.includes('*') ? true : origins }));

@@ -1,7 +1,7 @@
 // Ikon FontAwesome: aksi + per-kategori.
 import {
   faPen, faTrash, faXmark, faHeart, faLocationDot, faBookmark,
-  faDice, faBook, faGear, faStar, faChevronLeft, faChevronRight, faCalendarDays,
+  faDice, faBook, faGear, faStar, faChevronLeft, faChevronRight, faCalendarDays, faLock,
   faBowlRice, faFilm, faLandmark, faCat, faTree, faPersonWalking,
   faGamepad, faBagShopping, faMugHot,
 } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +20,7 @@ export const ui = {
   prev: faChevronLeft,
   next: faChevronRight,
   calendar: faCalendarDays,
+  lock: faLock,
 };
 
 // Ikon per slug kategori.

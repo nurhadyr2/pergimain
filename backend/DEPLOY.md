@@ -10,7 +10,7 @@ nvm install --lts
 
 # Ambil kode
 git clone <repo-kamu> && cd MainHariIni/backend
-cp .env.example .env     # isi DATABASE_URL (Supabase), PORT, CORS_ORIGIN
+cp .env.example .env     # isi DATABASE_URL (Supabase), APP_PIN, PORT, CORS_ORIGIN
 npm install --omit=dev
 ```
 
@@ -70,6 +70,7 @@ CORS_ORIGIN=https://mainhariini.vercel.app
 ```
 
 ## Catatan
+- `APP_PIN` wajib diisi; backend menolak start tanpa itu. Ganti PIN lalu `pm2 restart` = semua HP harus login ulang.
 - Pastikan port diteruskan dari router ke server (port forwarding) bila diakses dari internet.
 - Jangan commit `.env`. Service key / password DB bersifat rahasia.
 - Update aplikasi: `git pull && npm install --omit=dev && npm run db:migrate && pm2 restart mau-kemana-api`.

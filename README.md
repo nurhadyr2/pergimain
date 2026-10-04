@@ -53,7 +53,7 @@ frontend/src/
 ### 2. Backend
 ```bash
 cd backend
-cp .env.example .env         # isi DATABASE_URL
+cp .env.example .env         # isi DATABASE_URL + APP_PIN (PIN buat buka aplikasi)
 npm install
 npm run db:migrate           # buat tabel
 npm run db:seed              # isi kategori + tempat contoh
@@ -74,8 +74,13 @@ npm run dev                  # http://localhost:5173
 - **Database** → Supabase cloud (atau Postgres self-host di server).
 
 ## Endpoint API
+Semua endpoint selain `/api/auth/login` wajib header `Authorization: Bearer <token>`.
+Token didapat dari login PIN (`APP_PIN` di `.env` backend). Salah 5x berturut-turut dari satu IP → tunggu 15 menit.
+
 | Method | Path | Fungsi |
 |--------|------|--------|
+| POST | `/api/auth/login` | `{ pin }` → `{ token }` |
+| GET | `/api/auth/me` | cek token masih berlaku |
 | GET | `/api/categories` | daftar kategori |
 | GET | `/api/places?categories=makan,ngopi` | daftar tempat (filter opsional) |
 | GET | `/api/spin?categories=…` | pool kandidat + 1 pemenang acak |
