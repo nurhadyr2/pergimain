@@ -85,6 +85,86 @@
     color: #5a4a80;
     line-height: 1.6;
   }
+
+  /* Tile kategori: ikon di kotak membulat + label */
+  .cat-tile {
+    @apply bg-white inline-flex flex-col items-center justify-center gap-1 select-none;
+    width: 100%;
+    border: 2px solid #463a66;
+    box-shadow: 2px 2px 0 #463a66;
+    padding: 0.55rem 0.2rem 0.4rem;
+    cursor: pointer;
+    transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.1s ease;
+  }
+  .cat-tile:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #463a66; }
+  .cat-tile .cat-ico {
+    @apply inline-flex items-center justify-center;
+    width: 30px; height: 30px;
+    background: #f6f2fe;
+    border: 2px solid #463a66;
+    color: #8367c7;
+    font-size: 13px;
+  }
+  .cat-tile .cat-lbl {
+    @apply font-pixel uppercase;
+    font-size: 6.5px;
+    letter-spacing: 0.2px;
+    color: #5a4a80;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .cat-tile.cat-on { @apply bg-bubble-200; }
+  .cat-tile.cat-on .cat-ico { background: #f7a8c9; color: #fff; }
+  .cat-tile.cat-on .cat-lbl { color: #352b4d; }
+
+  /* Bar level di status bar */
+  .lv-bar {
+    position: relative;
+    width: 56px; height: 9px;
+    background: #f6f2fe;
+    border: 2px solid #463a66;
+  }
+  .lv-bar > i {
+    position: absolute; inset: 0;
+    background: #f7a8c9;
+    display: block;
+  }
+
+  /* Thumbnail kartu hasil */
+  .pix-thumb {
+    @apply inline-flex items-center justify-center;
+    width: 64px; height: 64px; flex: none;
+    background: #f6f2fe;
+    border: 3px solid #463a66;
+    box-shadow: inset 2px 2px 0 rgba(107,91,149,0.18);
+    color: #b39ddb;
+    font-size: 26px;
+  }
+
+  /* Balon ucapan karakter */
+  .say {
+    @apply font-body;
+    position: relative;
+    background: #fff;
+    border: 3px solid #463a66;
+    box-shadow: 3px 3px 0 #463a66;
+    color: #463a66;
+    font-size: 17px;
+    line-height: 1.1;
+    padding: 0.4rem 0.6rem;
+    max-width: 180px;
+    text-align: center;
+  }
+  .say::after {
+    content: '';
+    position: absolute; bottom: -10px; left: 24px;
+    width: 10px; height: 10px;
+    background: #fff;
+    border-right: 3px solid #463a66;
+    border-bottom: 3px solid #463a66;
+    transform: rotate(45deg);
+  }
+  .say.say-r::after { left: auto; right: 24px; }
 }
 
 @keyframes blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.25; } }

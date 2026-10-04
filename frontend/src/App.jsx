@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Header from './components/layout/Header';
 import CategoryPicker from './components/CategoryPicker';
@@ -13,6 +14,8 @@ import SideCharacters from './components/SideCharacters';
 import { useCategories } from './hooks/useCategories';
 import { useHistory } from './hooks/useHistory';
 import { api } from './lib/api';
+import { ui } from './lib/icons';
+import { levelFrom } from './lib/level';
 
 export default function App() {
   const { categories, loading, error: catError } = useCategories();
@@ -62,12 +65,14 @@ export default function App() {
     }
   };
 
-  const NavBtn = ({ id, label }) => (
+  const lvl = levelFrom(history.items.length);
+
+  const NavBtn = ({ id, label, icon, onClick, on }) => (
     <button
-      className={`pix-btn flex-1 ${tab === id ? 'pix-grape' : 'pix-white'}`}
-      onClick={() => setTab(id)}
+      className={`pix-btn flex-1 ${on ?? tab === id ? 'pix-grape' : 'pix-white'}`}
+      onClick={onClick || (() => setTab(id))}
     >
-      {label}
+      <FontAwesomeIcon icon={icon} />&nbsp; {label}
     </button>
   );
 
@@ -75,7 +80,7 @@ export default function App() {
     <div className="mx-auto min-h-screen w-full max-w-xl px-3 py-4">
       <SideCharacters />
       <div className="pix-panel flex flex-col gap-4 p-5">
-        <Header onManage={() => setManageOpen(true)} />
+        <Header level={lvl.level} progress={lvl.progress} toNext={lvl.toNext} />
 
         {tab === 'spin' && (
           <main className="flex flex-col gap-4">
@@ -104,13 +109,18 @@ export default function App() {
             />
 
             <motion.button
-              className="pix-btn pix-pink w-full"
-              style={{ fontSize: 13, padding: '0.9rem 1rem' }}
+              className="pix-btn pix-pink w-full flex-col gap-0"
+              style={{ padding: '0.85rem 1rem' }}
               onClick={handleSpin}
               disabled={spinning || loading}
               whileTap={{ scale: 0.98 }}
             >
-              {spinning ? '... MENGACAK ...' : 'SPIN'}
+              <span style={{ fontSize: 16 }}>{spinning ? '... MENGACAK ...' : 'SPIN!'}</span>
+              {!spinning && (
+                <span className="font-body normal-case" style={{ fontSize: 15, letterSpacing: 0, color: '#6b5b95' }}>
+                  biar semesta yang milih
+                </span>
+              )}
             </motion.button>
 
             {error && (
@@ -131,10 +141,10 @@ export default function App() {
 
         {/* Bottom nav ala konsol */}
         <nav className="mt-1 flex gap-2">
-          <NavBtn id="spin" label="SPIN" />
-          <NavBtn id="riwayat" label="RIWAYAT" />
+          <NavBtn id="spin" label="SPIN" icon={ui.dice} />
+          <NavBtn id="riwayat" label="RIWAYAT" icon={ui.book} />
           <button className="pix-btn pix-sun flex-1" onClick={() => setManageOpen(true)}>
-            KELOLA
+            <FontAwesomeIcon icon={ui.gear} />&nbsp; KELOLA
           </button>
         </nav>
       </div>
