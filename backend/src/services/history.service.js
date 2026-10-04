@@ -1,10 +1,13 @@
 const { History } = require('../models');
 const { ApiError } = require('../utils/ApiError');
 
+// Batas atas 1000: level & kalender di frontend dihitung dari seluruh riwayat.
+const MAX_LIMIT = 1000;
+
 exports.findAll = (limit = 20) =>
   History.findAll({
     order: [['spunAt', 'DESC']],
-    limit: Math.min(Number(limit) || 20, 100),
+    limit: Math.min(Number(limit) || 20, MAX_LIMIT),
   });
 
 exports.create = async (payload) => {
