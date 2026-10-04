@@ -18,10 +18,15 @@ export default function FitText({ children, max = 15, min = 9, className = '', s
       }
     };
     fit();
-    // Balon desktop lebarnya ikut viewport -> ukur ulang saat jendela berubah.
+    // Ukur ulang saat kotaknya berubah (gambar balon baru termuat, jendela di-resize) & saat font siap.
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(fit) : null;
+    ro?.observe(el);
     window.addEventListener('resize', fit);
     if (document.fonts?.ready) document.fonts.ready.then(fit).catch(() => {});
-    return () => window.removeEventListener('resize', fit);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener('resize', fit);
+    };
   }, [children, max, min]);
 
   return (
