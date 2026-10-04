@@ -9,7 +9,7 @@ import ResultCard from './components/ResultCard';
 import HistoryList from './components/HistoryList';
 import ManagePlacesModal from './components/ManagePlacesModal';
 import PixelCouple from './components/PixelCouple';
-import SideCharacters from './components/SideCharacters';
+import RoomScene from './components/RoomScene';
 
 import { useCategories } from './hooks/useCategories';
 import { useHistory } from './hooks/useHistory';
@@ -78,13 +78,13 @@ export default function App() {
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-xl px-3 py-4">
-      <SideCharacters />
+      <RoomScene />
       <div className="pix-panel flex flex-col gap-4 p-5">
         <Header level={lvl.level} progress={lvl.progress} toNext={lvl.toNext} />
 
         {tab === 'spin' && (
           <main className="flex flex-col gap-4">
-            <div className="pix-screen px-3 py-2 xl:hidden">
+            <div className="pix-screen px-3 py-2 lg:hidden">
               <PixelCouple />
             </div>
             <p className="pix-title text-center" style={{ fontSize: 8, color: '#8367c7' }}>

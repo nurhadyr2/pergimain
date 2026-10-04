@@ -1,0 +1,298 @@
+[
+ {
+  "cat": "characters",
+  "name": "girl-sit",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/girl-sit.png",
+  "file1x": "assets/1x/girl-sit.png"
+ },
+ {
+  "cat": "characters",
+  "name": "girl-idle",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/girl-idle.png",
+  "file1x": "assets/1x/girl-idle.png"
+ },
+ {
+  "cat": "characters",
+  "name": "girl-peace",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/girl-peace.png",
+  "file1x": "assets/1x/girl-peace.png"
+ },
+ {
+  "cat": "characters",
+  "name": "girl-phone",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/girl-phone.png",
+  "file1x": "assets/1x/girl-phone.png"
+ },
+ {
+  "cat": "characters",
+  "name": "boy-sit",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/boy-sit.png",
+  "file1x": "assets/1x/boy-sit.png"
+ },
+ {
+  "cat": "characters",
+  "name": "boy-idle",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/boy-idle.png",
+  "file1x": "assets/1x/boy-idle.png"
+ },
+ {
+  "cat": "characters",
+  "name": "boy-peace",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/boy-peace.png",
+  "file1x": "assets/1x/boy-peace.png"
+ },
+ {
+  "cat": "characters",
+  "name": "boy-laptop",
+  "w": 56,
+  "h": 62,
+  "file": "assets/characters/boy-laptop.png",
+  "file1x": "assets/1x/boy-laptop.png"
+ },
+ {
+  "cat": "bubbles",
+  "name": "bubble-left",
+  "w": 62,
+  "h": 34,
+  "file": "assets/bubbles/bubble-left.png",
+  "file1x": "assets/1x/bubble-left.png"
+ },
+ {
+  "cat": "bubbles",
+  "name": "bubble-right",
+  "w": 62,
+  "h": 34,
+  "file": "assets/bubbles/bubble-right.png",
+  "file1x": "assets/1x/bubble-right.png"
+ },
+ {
+  "cat": "bubbles",
+  "name": "bubble-large",
+  "w": 90,
+  "h": 42,
+  "file": "assets/bubbles/bubble-large.png",
+  "file1x": "assets/1x/bubble-large.png"
+ },
+ {
+  "cat": "room",
+  "name": "bookshelf",
+  "w": 52,
+  "h": 64,
+  "file": "assets/room/bookshelf.png",
+  "file1x": "assets/1x/bookshelf.png"
+ },
+ {
+  "cat": "room",
+  "name": "plant-hanging",
+  "w": 40,
+  "h": 60,
+  "file": "assets/room/plant-hanging.png",
+  "file1x": "assets/1x/plant-hanging.png"
+ },
+ {
+  "cat": "room",
+  "name": "plant-pot",
+  "w": 36,
+  "h": 46,
+  "file": "assets/room/plant-pot.png",
+  "file1x": "assets/1x/plant-pot.png"
+ },
+ {
+  "cat": "room",
+  "name": "window-night",
+  "w": 90,
+  "h": 98,
+  "file": "assets/room/window-night.png",
+  "file1x": "assets/1x/window-night.png"
+ },
+ {
+  "cat": "room",
+  "name": "curtain",
+  "w": 20,
+  "h": 92,
+  "file": "assets/room/curtain.png",
+  "file1x": "assets/1x/curtain.png"
+ },
+ {
+  "cat": "room",
+  "name": "string-lights",
+  "w": 124,
+  "h": 22,
+  "file": "assets/room/string-lights.png",
+  "file1x": "assets/1x/string-lights.png"
+ },
+ {
+  "cat": "room",
+  "name": "cat-sleeping",
+  "w": 46,
+  "h": 28,
+  "file": "assets/room/cat-sleeping.png",
+  "file1x": "assets/1x/cat-sleeping.png"
+ },
+ {
+  "cat": "room",
+  "name": "cushion",
+  "w": 58,
+  "h": 22,
+  "file": "assets/room/cushion.png",
+  "file1x": "assets/1x/cushion.png"
+ },
+ {
+  "cat": "room",
+  "name": "rug",
+  "w": 110,
+  "h": 26,
+  "file": "assets/room/rug.png",
+  "file1x": "assets/1x/rug.png"
+ },
+ {
+  "cat": "room",
+  "name": "sofa",
+  "w": 98,
+  "h": 54,
+  "file": "assets/room/sofa.png",
+  "file1x": "assets/1x/sofa.png"
+ },
+ {
+  "cat": "room",
+  "name": "desk-laptop-coffee",
+  "w": 66,
+  "h": 58,
+  "file": "assets/room/desk-laptop-coffee.png",
+  "file1x": "assets/1x/desk-laptop-coffee.png"
+ },
+ {
+  "cat": "room",
+  "name": "game-controller",
+  "w": 30,
+  "h": 18,
+  "file": "assets/room/game-controller.png",
+  "file1x": "assets/1x/game-controller.png"
+ },
+ {
+  "cat": "room",
+  "name": "polaroid-city",
+  "w": 24,
+  "h": 28,
+  "file": "assets/room/polaroid-city.png",
+  "file1x": "assets/1x/polaroid-city.png"
+ },
+ {
+  "cat": "room",
+  "name": "polaroid-heart",
+  "w": 24,
+  "h": 28,
+  "file": "assets/room/polaroid-heart.png",
+  "file1x": "assets/1x/polaroid-heart.png"
+ },
+ {
+  "cat": "room",
+  "name": "sticky-note",
+  "w": 26,
+  "h": 26,
+  "file": "assets/room/sticky-note.png",
+  "file1x": "assets/1x/sticky-note.png"
+ },
+ {
+  "cat": "room",
+  "name": "note-checklist",
+  "w": 28,
+  "h": 34,
+  "file": "assets/room/note-checklist.png",
+  "file1x": "assets/1x/note-checklist.png"
+ },
+ {
+  "cat": "decor",
+  "name": "heart",
+  "w": 9,
+  "h": 8,
+  "file": "assets/decor/heart.png",
+  "file1x": "assets/1x/heart.png"
+ },
+ {
+  "cat": "decor",
+  "name": "heart-small",
+  "w": 5,
+  "h": 5,
+  "file": "assets/decor/heart-small.png",
+  "file1x": "assets/1x/heart-small.png"
+ },
+ {
+  "cat": "decor",
+  "name": "star",
+  "w": 11,
+  "h": 9,
+  "file": "assets/decor/star.png",
+  "file1x": "assets/1x/star.png"
+ },
+ {
+  "cat": "decor",
+  "name": "sparkle",
+  "w": 9,
+  "h": 9,
+  "file": "assets/decor/sparkle.png",
+  "file1x": "assets/1x/sparkle.png"
+ },
+ {
+  "cat": "decor",
+  "name": "sparkle-small",
+  "w": 5,
+  "h": 5,
+  "file": "assets/decor/sparkle-small.png",
+  "file1x": "assets/1x/sparkle-small.png"
+ },
+ {
+  "cat": "decor",
+  "name": "cloud",
+  "w": 15,
+  "h": 7,
+  "file": "assets/decor/cloud.png",
+  "file1x": "assets/1x/cloud.png"
+ },
+ {
+  "cat": "layouts",
+  "name": "room-sides",
+  "w": 480,
+  "h": 270,
+  "file": "assets/layouts/room-sides.png",
+  "file1x": "assets/1x/room-sides.png"
+ },
+ {
+  "cat": "layouts",
+  "name": "room-sides-bg",
+  "w": 480,
+  "h": 270,
+  "file": "assets/layouts/room-sides-bg.png",
+  "file1x": "assets/1x/room-sides-bg.png"
+ },
+ {
+  "cat": "layouts",
+  "name": "room-full",
+  "w": 480,
+  "h": 270,
+  "file": "assets/layouts/room-full.png",
+  "file1x": "assets/1x/room-full.png"
+ },
+ {
+  "cat": "layouts",
+  "name": "room-full-bg",
+  "w": 480,
+  "h": 270,
+  "file": "assets/layouts/room-full-bg.png",
+  "file1x": "assets/1x/room-full-bg.png"
+ }
+]
