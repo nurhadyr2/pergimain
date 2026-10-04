@@ -16,7 +16,7 @@ try { ({ chromium } = require('playwright')); } catch { ({ chromium } = require(
 const BASE_URL = process.env.PROMO_URL || 'http://localhost:4173';
 const OUT = path.resolve(process.argv[2] || 'promo/out');
 const FRAMES = path.join(OUT, 'frames');
-const SITE = 'ngedatebarengayang.zavokra.com';
+const SITE = 'zavokra.com'; // link aplikasi aslinya privat (hanya kami berdua) -> yang dibagikan cuma situs Zavokra
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(FRAMES, { recursive: true });
 
@@ -327,11 +327,11 @@ async function makePhotos(browser) {
     <div style="display:flex;gap:28px;align-items:flex-end;margin-bottom:10px">
       <img src="data:image/png;base64,${girl}" style="width:112px;image-rendering:pixelated">
       <img src="data:image/png;base64,${boy}" style="width:112px;image-rendering:pixelated"></div>
-    <div style="font-family:'Press Start 2P',monospace;font-size:13px;color:#8367c7;letter-spacing:1px">COBA DI</div>
-    <div class="cap on" style="position:static;transform:none;width:92vw;padding:18px 12px"><b style="font-size:15px;color:#352b4d;white-space:nowrap">${site}</b></div>
-    <div style="font-size:30px;color:#6b5b95;margin-top:6px">dibikin buat kita berdua</div>
-    <div style="margin-top:34px;font-family:'Press Start 2P',monospace;font-size:11px;color:#9f86d9;line-height:2">dibikin sama<br><span style="font-size:20px;color:#463a66">ZAVOKRA</span></div>
-    <div style="font-size:28px;color:#e45f97;margin-top:10px">mau versi kalian? DM ya</div>
+    <div style="font-size:30px;color:#6b5b95">ini dibikin buat kita berdua</div>
+    <div style="margin-top:26px;font-family:'Press Start 2P',monospace;font-size:13px;color:#e45f97;line-height:1.9;text-align:center">MAU VERSI<br>KALIAN BERDUA?</div>
+    <div class="cap on" style="position:static;transform:none;width:70vw;padding:18px 12px;margin-top:6px"><b style="font-size:22px;color:#352b4d;white-space:nowrap">${site}</b></div>
+    <div style="margin-top:14px;font-family:'Press Start 2P',monospace;font-size:10px;color:#9f86d9;line-height:2">by<br><span style="font-size:20px;color:#463a66">ZAVOKRA</span></div>
+    <div style="font-size:28px;color:#e45f97;margin-top:12px">DM ya</div>
   `), [SITE, GIRL, BOY]);
   await sleep(4500);
 

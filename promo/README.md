@@ -22,7 +22,7 @@ jadi tidak ada riwayat asli kalian yang ikut tampil. File: `ngedate-tiktok.mp4`.
 | 30–37 | Jurnal: 5 hati, ketik cerita, tambah foto, simpan | **terus tulis ceritanya** — *rating · catatan · foto* |
 | 37–42 | Pilih kategori → karakter berkomentar, kucing tidur | **karakternya ikut komen** — *beda kategori, beda celetukan* |
 | 42–45 | Layar kunci PIN | **cuma kita berdua yang bisa buka** |
-| 45–50 | Kartu penutup: karakter, link, Zavokra, CTA | **ngedatebarengayang.zavokra.com** — *dibikin buat kita berdua* — *dibikin sama ZAVOKRA* — *mau versi kalian? DM ya* |
+| 45–50 | Kartu penutup: karakter, CTA, situs Zavokra | *ini dibikin buat kita berdua* — **MAU VERSI KALIAN BERDUA?** — **zavokra.com** — *by ZAVOKRA* — *DM ya* |
 
 **Kenapa 5 detik pertamanya begini:** baris pertama adalah kalimat yang hampir semua pasangan pernah
 dengar ("terserah"), jadi penonton langsung merasa *"ini gue banget"*. Baris kedua memberi twist
@@ -36,16 +36,16 @@ dan "hadiah"-nya (hasil keluar) jatuh tepat di detik ke-5, sebelum orang sempat 
 > tinggal SPIN, semesta yang milih. ada kalender kencan, naik level tiap 3x jalan, sama jurnal foto.
 > cuma kita berdua yang punya PIN-nya 🔒
 >
-> mau dibikinin versi kalian berdua? DM aja 💌 — @zavokra
+> mau dibikinin versi kalian berdua? DM aja — zavokra.com
 
 **B — pendek**
 > pacar: terserah
 > aku: *bikin website* 💻
-> sekarang nggak pernah debat lagi ✨ link di bio
+> sekarang nggak pernah debat lagi. mau versi kalian? DM / zavokra.com
 
 **C — sudut bisnis**
 > ini project kecil Zavokra buat pasangan: spin tempat kencan, kalender ♥, level & gelar, jurnal foto.
-> bisa dibikin custom pakai nama & karakter kalian sendiri. DM buat tanya 💌
+> bisa dibikin custom pakai nama & karakter kalian sendiri. DM atau cek zavokra.com
 
 ## Hashtag
 
@@ -55,8 +55,9 @@ Gabungkan 1–2 yang besar + 3–4 yang spesifik; jangan lebih dari ±8.
 
 ## Tips posting
 
-- **Link**: caption TikTok tidak bisa diklik; taruh `ngedatebarengayang.zavokra.com` di **bio**, dan tulis
-  "link di bio" di caption. Sematkan komentar pertama berisi link + "DM kalau mau versi kalian".
+- **Link**: alamat aplikasi aslinya **privat** (hanya kamu & pasangan), jadi jangan pernah ditulis di video, caption,
+  bio, atau komentar. Yang dibagikan cuma **zavokra.com**: taruh di bio, dan sematkan komentar pertama
+  "mau versi kalian berdua? DM / cek zavokra.com".
 - **Jam tayang**: 18.00–21.00 WIB hari kerja, atau Jumat–Minggu sore.
 - **Cover**: pilih frame detik ke-5 (hasil "Museum Nasional" + caption "nggak ada lagi debat 1 jam"),
   atau detik ke-26 (perayaan naik level) sebagai sampul.
