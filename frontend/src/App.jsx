@@ -69,17 +69,18 @@ export default function App() {
 
   const NavBtn = ({ id, label, icon, onClick, on }) => (
     <button
-      className={`pix-btn min-w-0 flex-1 !px-1 sm:!px-4 ${on ?? tab === id ? 'pix-grape' : 'pix-white'}`}
+      className={`pix-btn min-w-0 flex-1 whitespace-nowrap !gap-1.5 !px-1 sm:!gap-2 sm:!px-4 ${on ?? tab === id ? 'pix-grape' : 'pix-white'}`}
       onClick={onClick || (() => setTab(id))}
     >
-      <FontAwesomeIcon icon={icon} />&nbsp; {label}
+      <FontAwesomeIcon icon={icon} />
+      <span>{label}</span>
     </button>
   );
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-xl px-3 py-4">
+    <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col px-3 pt-4 lg:pb-4">
       <RoomScene />
-      <div className="pix-panel flex flex-col gap-4 p-5">
+      <div className="pix-panel flex flex-col gap-4 p-4 sm:p-5">
         <Header level={lvl.level} progress={lvl.progress} toNext={lvl.toNext} />
 
         {tab === 'spin' && (
@@ -140,8 +141,9 @@ export default function App() {
         <nav className="mt-1 flex gap-2">
           <NavBtn id="spin" label="SPIN" icon={ui.dice} />
           <NavBtn id="riwayat" label="RIWAYAT" icon={ui.book} />
-          <button className="pix-btn pix-sun min-w-0 flex-1 !px-1 sm:!px-4" onClick={() => setManageOpen(true)}>
-            <FontAwesomeIcon icon={ui.gear} />&nbsp; KELOLA
+          <button className="pix-btn pix-sun min-w-0 flex-1 whitespace-nowrap !gap-1.5 !px-1 sm:!gap-2 sm:!px-4" onClick={() => setManageOpen(true)}>
+            <FontAwesomeIcon icon={ui.gear} />
+            <span>KELOLA</span>
           </button>
         </nav>
       </div>

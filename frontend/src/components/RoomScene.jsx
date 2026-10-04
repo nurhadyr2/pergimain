@@ -8,6 +8,10 @@ import bubbleR from '../Character dan Layout Kamar/assets/bubbles/bubble-right.p
 // ditaruh di "cover-box" 16:9 biar selalu sejajar di layar mana pun.
 const pix = { imageRendering: 'pixelated' };
 
+const WALL_SVG =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E" +
+  "%3Crect x='7' y='7' width='2' height='2' fill='%23d8c8ee'/%3E%3C/svg%3E";
+
 const GIRL_BUBBLE = { left: '14%', top: '47%', width: '18%' };
 const BOY_BUBBLE = { left: '64%', top: '47%', width: '18%' };
 
@@ -40,9 +44,12 @@ function BubbleText({ box, children }) {
 export default function RoomScene() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      {/* HP: cuma dinding (titik 2px tiap 16px, skala sama dgn MobileScene) */}
+      <div className="absolute inset-0 lg:hidden" style={{ background: `#e8dcf6 url("${WALL_SVG}")` }} />
+
       {/* cover-box 16:9 yang selalu menutupi viewport */}
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
         style={{ width: '100vw', height: '56.25vw', minWidth: '177.78vh', minHeight: '100vh' }}
       >
         <img src={roomBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full" style={pix} />
