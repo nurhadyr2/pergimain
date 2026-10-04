@@ -3,6 +3,7 @@ import boyPeace from '../Character dan Layout Kamar/assets/characters/boy-peace.
 import girlIdle from '../Character dan Layout Kamar/assets/characters/girl-idle.png';
 import boyIdle from '../Character dan Layout Kamar/assets/characters/boy-idle.png';
 import CatZzz from './CatZzz';
+import FitText from './FitText';
 import bubbleL from '../Character dan Layout Kamar/assets/bubbles/bubble-left.png';
 import bubbleR from '../Character dan Layout Kamar/assets/bubbles/bubble-right.png';
 import desk from '../Character dan Layout Kamar/assets/room/desk-laptop-coffee.png';
@@ -38,19 +39,22 @@ function Bubble({ src, children, style }) {
   return (
     <div className="absolute w-[124px] select-none" style={style}>
       <img src={src} alt="" aria-hidden="true" className="block w-full" style={pix} />
-      <div
+      {/* Teks mengecil otomatis (boleh 2 baris) supaya tidak pernah keluar dari balon */}
+      <FitText
+        max={15}
+        min={9}
         className="absolute inset-x-0 top-0 flex items-center justify-center text-center"
         style={{
           height: `${(108 / 136) * 100}%`,
-          whiteSpace: 'nowrap',
+          padding: '0 9px',
+          boxSizing: 'border-box',
           fontFamily: 'VT323, monospace',
           color: '#463a66',
-          lineHeight: 1,
-          fontSize: 15,
+          lineHeight: 0.95,
         }}
       >
         {children}
-      </div>
+      </FitText>
     </div>
   );
 }
