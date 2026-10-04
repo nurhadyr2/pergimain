@@ -1,5 +1,5 @@
 // Util kalender: kelompokkan riwayat per hari + tandai hari naik level & hari rencana.
-import { levelFrom } from './level';
+import { levelFrom } from './level.js';
 
 export const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGU', 'SEP', 'OKT', 'NOV', 'DES'];
 export const DAYS = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];

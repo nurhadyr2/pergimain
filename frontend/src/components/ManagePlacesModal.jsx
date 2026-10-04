@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { api } from '../lib/api';
+import { api, downloadBackup } from '../lib/api';
 import { ui } from '../lib/icons';
 
 const emptyForm = (categoryId) => ({
@@ -19,6 +19,7 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
   const [editingId, setEditingId] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [backupMsg, setBackupMsg] = useState('');
 
   const load = () => api.places().then(setPlaces).catch((e) => setError(e.message));
 
@@ -65,6 +66,16 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
       mapUrl: p.mapUrl || '',
       priceLevel: p.priceLevel,
     });
+  };
+
+  const backup = async () => {
+    setBackupMsg('menyiapkan...');
+    try {
+      const d = await downloadBackup();
+      setBackupMsg(`tersimpan: ${d.counts.places} tempat, ${d.counts.history} riwayat`);
+    } catch (e) {
+      setBackupMsg(`gagal: ${e.message}`);
+    }
   };
 
   const remove = async (id) => {
@@ -160,6 +171,16 @@ export default function ManagePlacesModal({ open, onClose, categories, onChanged
                 </li>
               ))}
             </ul>
+
+            {/* Backup */}
+            <div className="mt-4 pt-4" style={{ borderTop: '2px dotted #cdbdec' }}>
+              <button type="button" className="pix-btn pix-white w-full" onClick={backup}>
+                <FontAwesomeIcon icon={ui.download} />&nbsp; UNDUH BACKUP (JSON)
+              </button>
+              <p className="font-body mt-2 text-center" style={{ fontSize: 15, color: '#9f86d9' }}>
+                {backupMsg || 'semua tempat & riwayat kalian dalam satu file. simpan di tempat aman ya'}
+              </p>
+            </div>
           </div>
         </motion.div>
       </motion.div>

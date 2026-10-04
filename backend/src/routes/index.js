@@ -11,5 +11,6 @@ router.use('/categories', require('./category.routes'));
 router.use('/places', require('./place.routes'));
 router.use('/spin', require('./spin.routes'));
 router.use('/history', require('./history.routes'));
+router.use('/backup', require('./backup.routes'));
 
 module.exports = router;

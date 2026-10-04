@@ -73,6 +73,17 @@ Buka website di Chrome HP → menu ⋮ → **Tambahkan ke layar utama** (iPhone:
 Aplikasi terbuka full-screen tanpa bar browser, selalu dalam tampilan HP, dan halamannya tetap terbuka saat offline
 (data tetap butuh koneksi). File terkait: `frontend/public/manifest.webmanifest`, `frontend/public/sw.js`, `frontend/public/icons/`.
 
+## Backup
+Tombol **UNDUH BACKUP (JSON)** di modal Kelola mengunduh seluruh kategori, tempat, dan riwayat (termasuk URL foto).
+Simpan filenya di tempat aman (Drive/email). Foto sendiri ada di `backend/uploads/` atau Supabase Storage.
+
+## Test
+```bash
+cd backend && npm test     # auth (PIN), history (rencana/jurnal/foto), spin (bobot, budget, fresh) — tanpa DB
+cd frontend && npm test    # level & gelar, kalender, dialog karakter
+```
+Keduanya pakai runner bawaan Node (`node:test`), tanpa dependensi tambahan, dan jalan otomatis di GitHub Actions tiap push ke `main`.
+
 ## Deploy
 - **Frontend** → Vercel (atau build statis `npm run build` lalu serve `dist/`).
 - **Backend** → server rumah kamu. Lihat [`backend/DEPLOY.md`](backend/DEPLOY.md).
@@ -98,6 +109,7 @@ Token didapat dari login PIN (`APP_PIN` di `.env` backend). Salah 5x berturut-tu
 | POST | `/api/history/:id/photo` | upload foto jurnal (multipart `photo`, maks 8MB) |
 | DELETE | `/api/history/:id/photo` | hapus foto jurnal |
 | DELETE | `/api/history/:id` | hapus riwayat / batalkan rencana |
+| GET | `/api/backup` | unduh semua data (kategori, tempat, riwayat) sebagai JSON |
 
 ### Foto jurnal
 Default disimpan di disk server (`backend/uploads/`, di-gitignore). Isi `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
