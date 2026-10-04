@@ -68,6 +68,11 @@ npm install
 npm run dev                  # http://localhost:5173
 ```
 
+## Pasang di HP (PWA)
+Buka website di Chrome HP → menu ⋮ → **Tambahkan ke layar utama** (iPhone: Safari → Bagikan → **Tambah ke Layar Utama**).
+Aplikasi terbuka full-screen tanpa bar browser, selalu dalam tampilan HP, dan halamannya tetap terbuka saat offline
+(data tetap butuh koneksi). File terkait: `frontend/public/manifest.webmanifest`, `frontend/public/sw.js`, `frontend/public/icons/`.
+
 ## Deploy
 - **Frontend** → Vercel (atau build statis `npm run build` lalu serve `dist/`).
 - **Backend** → server rumah kamu. Lihat [`backend/DEPLOY.md`](backend/DEPLOY.md).
